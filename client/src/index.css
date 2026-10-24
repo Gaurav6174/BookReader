@@ -1,0 +1,468 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base ─────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-cream: #fffbf2;
+  --color-paper: #fff7df;
+  --color-charcoal: #111111;
+  --color-muted: rgba(17, 17, 17, 0.45);
+  --color-yellow: #fde047;
+  --color-purple: #d8c7ff;
+  --color-green: #bbf7d0;
+  --color-pink: #fbcfe8;
+  --color-blue: #bfdbfe;
+  --color-orange: #fed7aa;
+  --color-gray: #e5e7eb;
+  --color-red: #fecaca;
+  --color-sky: #bae6fd;
+  --font-hand: 'Patrick Hand', cursive;
+  --font-display: 'Gaegu', cursive;
+}
+
+html.dark {
+  --color-cream: #18181b;
+  --color-paper: #27272a;
+  --color-charcoal: #f4f4f5;
+  --color-muted: rgba(244, 244, 245, 0.55);
+  --color-yellow: #ca8a04;
+  --color-purple: #7c3aed;
+  --color-green: #059669;
+  --color-pink: #db2777;
+  --color-blue: #2563eb;
+  --color-orange: #ea580c;
+  --color-gray: #3f3f46;
+  --color-red: #dc2626;
+  --color-sky: #0284c7;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-hand);
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ─── Notebook Background ────────────────────────────── */
+.notebook-bg {
+  background-color: var(--color-cream);
+  background-image:
+    repeating-linear-gradient(transparent,
+      transparent 31px,
+      rgba(147, 197, 253, 0.35) 31px,
+      rgba(147, 197, 253, 0.35) 32px);
+  min-height: 100vh;
+}
+
+html.dark .notebook-bg {
+  background-color: #18181b;
+  background-image:
+    repeating-linear-gradient(transparent,
+      transparent 31px,
+      rgba(99, 102, 241, 0.15) 31px,
+      rgba(99, 102, 241, 0.15) 32px);
+}
+
+/* ─── Typography ─────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--color-charcoal);
+  margin: 0;
+}
+
+/* ─── Sketch Inputs ──────────────────────────────────── */
+.sketch-input {
+  font-family: var(--font-hand);
+  background: var(--color-paper);
+  border: 2px solid var(--color-charcoal);
+  border-radius: 0;
+  padding: 8px 12px;
+  font-size: 15px;
+  color: var(--color-charcoal);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+}
+
+.sketch-input:focus {
+  border-color: #6366f1;
+  box-shadow: 3px 3px 0 rgba(99, 102, 241, 0.2);
+}
+
+.sketch-input::placeholder {
+  color: var(--color-muted);
+}
+
+textarea.sketch-input {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* ─── Sketch Buttons ─────────────────────────────────── */
+.sketch-btn {
+  font-family: var(--font-hand);
+  font-size: 15px;
+  border: 2px solid var(--color-charcoal);
+  cursor: pointer;
+  padding: 8px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.1s, box-shadow 0.1s;
+  box-shadow: 3px 3px 0 var(--color-charcoal);
+  position: relative;
+  text-decoration: none;
+  user-select: none;
+}
+
+.sketch-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 var(--color-charcoal);
+}
+
+.sketch-btn:active:not(:disabled) {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--color-charcoal);
+}
+
+.sketch-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sketch-btn-primary {
+  background: var(--color-yellow);
+  color: var(--color-charcoal);
+}
+
+.sketch-btn-secondary {
+  background: var(--color-paper);
+  color: var(--color-charcoal);
+}
+
+.sketch-btn-danger {
+  background: var(--color-red);
+  color: #991b1b;
+  border-color: #ef4444;
+  box-shadow: 3px 3px 0 #ef4444;
+}
+
+.sketch-btn-danger:hover:not(:disabled) {
+  box-shadow: 4px 4px 0 #ef4444;
+}
+
+.sketch-btn-lookup {
+  background: var(--color-blue);
+  color: #1d4ed8;
+  border-color: #3b82f6;
+  box-shadow: 3px 3px 0 #3b82f6;
+  font-size: 13px;
+  padding: 6px 14px;
+}
+
+.sketch-btn-lookup:hover:not(:disabled) {
+  box-shadow: 4px 4px 0 #3b82f6;
+}
+
+.sketch-btn-sm {
+  padding: 4px 12px;
+  font-size: 13px;
+  box-shadow: 2px 2px 0 var(--color-charcoal);
+}
+
+/* ─── Sketch Card ────────────────────────────────────── */
+.sketch-card {
+  position: relative;
+  background: var(--color-paper);
+  border: 2px solid var(--color-charcoal);
+  padding: 20px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* ─── Breadcrumbs ────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--color-muted);
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.breadcrumb a:hover {
+  color: #1d4ed8;
+}
+
+/* ─── Badge ──────────────────────────────────────────── */
+.sketch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border: 1.5px solid var(--color-charcoal);
+  font-size: 12px;
+  font-family: var(--font-hand);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* ─── Confirm Dialog ─────────────────────────────────── */
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.dialog-box {
+  background: var(--color-cream);
+  border: 2px solid var(--color-charcoal);
+  box-shadow: 6px 6px 0 var(--color-charcoal);
+  padding: 28px;
+  max-width: 420px;
+  width: 100%;
+  font-family: var(--font-hand);
+}
+
+/* ─── Section Tabs ───────────────────────────────────── */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--color-charcoal);
+}
+
+.tab-btn {
+  font-family: var(--font-hand);
+  font-size: 16px;
+  background: var(--color-gray);
+  border: 2px solid var(--color-charcoal);
+  border-bottom: none;
+  padding: 10px 24px;
+  cursor: pointer;
+  color: var(--color-muted);
+  margin-bottom: -2px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.tab-btn.active {
+  background: var(--color-paper);
+  color: var(--color-charcoal);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-paper);
+}
+
+/* ─── Word Table ─────────────────────────────────────── */
+.word-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-hand);
+  font-size: 14px;
+}
+
+.word-table th {
+  background: var(--color-yellow);
+  border: 1.5px solid var(--color-charcoal);
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 13px;
+  font-family: var(--font-display);
+}
+
+.word-table td {
+  border: 1.5px solid rgba(17, 17, 17, 0.2);
+  padding: 8px 12px;
+  vertical-align: top;
+}
+
+.word-table tr:nth-child(even) td {
+  background: rgba(255, 247, 223, 0.5);
+}
+
+.word-table tr:hover td {
+  background: rgba(253, 224, 71, 0.15);
+}
+
+/* ─── Note Card ──────────────────────────────────────── */
+.note-card {
+  background: var(--color-paper);
+  border: 2px solid var(--color-charcoal);
+  border-left: 6px solid var(--color-yellow);
+  padding: 16px 18px;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-charcoal);
+  border-radius: 0;
+}
+
+/* ─── Focus visible ──────────────────────────────────── */
+:focus-visible {
+  outline: 2px dashed #6366f1;
+  outline-offset: 3px;
+}
+
+/* ─── Utility ────────────────────────────────────────── */
+.muted {
+  color: var(--color-muted);
+}
+
+.error-msg {
+  color: #b91c1c;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+/* ─── Animations ─────────────────────────────────────── */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+.animate-toast-in {
+  animation: toast-in 0.3s ease-out;
+}
+
+/* ─── Dark Mode Component Enhancements ──────────────── */
+html.dark .sketch-card {
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+}
+
+html.dark .sketch-input {
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+html.dark .sketch-btn {
+  box-shadow: 3px 3px 0 var(--color-charcoal);
+}
+
+html.dark .sketch-btn-primary {
+  background: #ca8a04;
+  color: #ffffff;
+}
+
+html.dark .sketch-btn-secondary {
+  background: #27272a;
+  color: #f4f4f5;
+}
+
+html.dark .sketch-btn-danger {
+  background: #7f1d1d;
+  color: #fecaca;
+  border-color: #ef4444;
+  box-shadow: 3px 3px 0 #ef4444;
+}
+
+html.dark .sketch-btn-lookup {
+  background: #1e3a8a;
+  color: #bfdbfe;
+  border-color: #60a5fa;
+  box-shadow: 3px 3px 0 #60a5fa;
+}
+
+html.dark .sketch-badge {
+  color: #ffffff;
+  border-color: rgba(244, 244, 245, 0.7);
+}
+
+html.dark .word-table th {
+  color: #ffffff;
+  border-color: rgba(244, 244, 245, 0.4);
+}
+
+html.dark .word-table td {
+  border-color: rgba(244, 244, 245, 0.2);
+}
+
+html.dark .word-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+html.dark .word-table tr:hover td {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+html.dark .note-card {
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+}
+
+html.dark .dialog-box {
+  background: #27272a;
+  color: #f4f4f5;
+  box-shadow: 6px 6px 0 rgba(244, 244, 245, 0.9);
+}
+
+html.dark .dialog-overlay {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+html.dark .breadcrumb a {
+  color: #93c5fd;
+}
+
+html.dark .breadcrumb a:hover {
+  color: #bfdbfe;
+}
