@@ -5,7 +5,8 @@ import Note from '../models/Note.js';
 import { notFoundError, assertValidId } from '../middleware/validate.js';
 
 export async function getAllBooks(userId) {
-  const query = userId ? { userId } : {};
+  if (!userId) return [];
+  const query = { userId };
   const books = await Book.find(query).sort({ createdAt: -1 });
 
   // Attach counts
@@ -25,8 +26,8 @@ export async function getAllBooks(userId) {
 
 export async function getBook(bookId, userId) {
   assertValidId(bookId, 'bookId');
-  const query = { _id: bookId };
-  if (userId) query.userId = userId;
+  if (!userId) throw notFoundError(`Book not found: ${bookId}`);
+  const query = { _id: bookId, userId };
   const book = await Book.findOne(query);
   if (!book) throw notFoundError(`Book not found: ${bookId}`);
   return book;

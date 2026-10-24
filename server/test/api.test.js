@@ -19,6 +19,15 @@ async function req(path, options = {}) {
   return { status: res.status, ok: res.ok, body: json };
 }
 
+async function getAuthToken() {
+  const email = `testuser_${Date.now()}_${Math.random().toString(36).substring(7)}@test.com`;
+  const res = await req('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Tester', email, password: 'password123' }),
+  });
+  return res.body?.data?.token;
+}
+
 test('API Health Check', async () => {
   const res = await req('/health');
   assert.equal(res.status, 200);
@@ -26,9 +35,13 @@ test('API Health Check', async () => {
 });
 
 test('Book and Chapter lifecycle with Word duplicate rule & Cascade deletion', async (t) => {
+  const token = await getAuthToken();
+  const authHeaders = { Authorization: `Bearer ${token}` };
+
   // 1. Create a Book
   const bookRes = await req('/books', {
     method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ title: 'Test Novel', author: 'Jane Doe' }),
   });
   assert.equal(bookRes.status, 201);
@@ -88,7 +101,7 @@ test('Book and Chapter lifecycle with Word duplicate rule & Cascade deletion', a
   assert.ok(noteId);
 
   // 6. Verify Book listing includes accurate counts
-  const booksListRes = await req('/books');
+  const booksListRes = await req('/books', { headers: authHeaders });
   assert.equal(booksListRes.status, 200);
   const foundBook = booksListRes.body.data.find((b) => b._id === bookId);
   assert.ok(foundBook);
@@ -97,11 +110,11 @@ test('Book and Chapter lifecycle with Word duplicate rule & Cascade deletion', a
   assert.equal(foundBook.noteCount, 1);
 
   // 7. Verify Cascade Deletion when deleting the Book
-  const deleteRes = await req(`/books/${bookId}`, { method: 'DELETE' });
+  const deleteRes = await req(`/books/${bookId}`, { method: 'DELETE', headers: authHeaders });
   assert.equal(deleteRes.status, 204);
 
   // 8. Verify Book, Chapter, Word, and Note are all cleaned up
-  const verifyBook = await req(`/books/${bookId}`);
+  const verifyBook = await req(`/books/${bookId}`, { headers: authHeaders });
   assert.equal(verifyBook.status, 404);
 
   const verifyCh1 = await req(`/chapters/${ch1Id}`);
@@ -115,9 +128,13 @@ test('Book and Chapter lifecycle with Word duplicate rule & Cascade deletion', a
 });
 
 test('Chapter deletion cascades to its words and notes', async () => {
+  const token = await getAuthToken();
+  const authHeaders = { Authorization: `Bearer ${token}` };
+
   // 1. Create a Book
   const bookRes = await req('/books', {
     method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ title: 'Cascade Chapter Book' }),
   });
   const bookId = bookRes.body.data._id;
@@ -125,6 +142,7 @@ test('Chapter deletion cascades to its words and notes', async () => {
   // 2. Create Chapter
   const chRes = await req(`/books/${bookId}/chapters`, {
     method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ title: 'Standalone Chapter' }),
   });
   const chId = chRes.body.data._id;
@@ -132,26 +150,28 @@ test('Chapter deletion cascades to its words and notes', async () => {
   // 3. Add Word & Note
   await req(`/chapters/${chId}/words`, {
     method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ word: 'Transient', meaning: 'Passing quickly' }),
   });
   await req(`/chapters/${chId}/notes`, {
     method: 'POST',
+    headers: authHeaders,
     body: JSON.stringify({ content: 'A fleeting note' }),
   });
 
   // 4. Delete only the Chapter
-  const delChRes = await req(`/chapters/${chId}`, { method: 'DELETE' });
+  const delChRes = await req(`/chapters/${chId}`, { method: 'DELETE', headers: authHeaders });
   assert.equal(delChRes.status, 204);
 
   // 5. Verify words and notes of chapter are deleted
-  const chWords = await req(`/chapters/${chId}/words`);
+  const chWords = await req(`/chapters/${chId}/words`, { headers: authHeaders });
   assert.deepEqual(chWords.body.data, []);
 
-  const chNotes = await req(`/chapters/${chId}/notes`);
+  const chNotes = await req(`/chapters/${chId}/notes`, { headers: authHeaders });
   assert.deepEqual(chNotes.body.data, []);
 
   // Cleanup book
-  await req(`/books/${bookId}`, { method: 'DELETE' });
+  await req(`/books/${bookId}`, { method: 'DELETE', headers: authHeaders });
 });
 
 test('Authentication and User Isolation', async () => {

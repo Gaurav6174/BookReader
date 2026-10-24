@@ -5,16 +5,38 @@ import ChapterPage from './pages/ChapterPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BooksPage />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <BooksPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/books/:bookId" element={<BookPage />} />
-        <Route path="/chapters/:chapterId" element={<ChapterPage />} />
+        <Route
+          path="/books/:bookId"
+          element={
+            <ProtectedRoute>
+              <BookPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/chapters/:chapterId"
+          element={
+            <ProtectedRoute>
+              <ChapterPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
