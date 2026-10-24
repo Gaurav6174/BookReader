@@ -6,19 +6,31 @@ import { notFoundError, assertValidId } from '../middleware/validate.js';
 
 export async function getChapters(bookId) {
   assertValidId(bookId, 'bookId');
-  const chapters = await Chapter.find({ bookId }).sort({ order: 1 });
+  const chapters = await Chapter.find({ bookId }).sort({ order: 1 }).lean();
+  if (chapters.length === 0) return [];
 
-  const enriched = await Promise.all(
-    chapters.map(async (ch) => {
-      const [wordCount, noteCount] = await Promise.all([
-        Word.countDocuments({ chapterId: ch._id }),
-        Note.countDocuments({ chapterId: ch._id }),
-      ]);
-      return { ...ch.toObject(), wordCount, noteCount };
-    })
-  );
+  const chapterIds = chapters.map((c) => c._id);
 
-  return enriched;
+  // Single parallel batch aggregation for all chapters of this book
+  const [wordCounts, noteCounts] = await Promise.all([
+    Word.aggregate([
+      { $match: { chapterId: { $in: chapterIds } } },
+      { $group: { _id: '$chapterId', count: { $sum: 1 } } },
+    ]),
+    Note.aggregate([
+      { $match: { chapterId: { $in: chapterIds } } },
+      { $group: { _id: '$chapterId', count: { $sum: 1 } } },
+    ]),
+  ]);
+
+  const wordMap = new Map(wordCounts.map((w) => [w._id.toString(), w.count]));
+  const noteMap = new Map(noteCounts.map((n) => [n._id.toString(), n.count]));
+
+  return chapters.map((ch) => ({
+    ...ch,
+    wordCount: wordMap.get(ch._id.toString()) || 0,
+    noteCount: noteMap.get(ch._id.toString()) || 0,
+  }));
 }
 
 export async function getChapter(chapterId) {
