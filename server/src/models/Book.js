@@ -15,6 +15,11 @@ const bookSchema = new mongoose.Schema(
       maxlength: [150, 'Author must be at most 150 characters'],
       default: '',
     },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      index: true,
+    },
   },
   { timestamps: true }
 );

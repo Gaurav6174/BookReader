@@ -7,6 +7,7 @@ import ChapterItem from '../components/chapters/ChapterItem.jsx';
 import ChapterForm from '../components/chapters/ChapterForm.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import UserMenu from '../components/UserMenu.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function BookPage() {
@@ -111,6 +112,7 @@ export default function BookPage() {
               )}
             </div>
             <div className="flex items-center gap-3">
+              <UserMenu />
               <ThemeToggle />
               <button
                 onClick={() => setShowChapterForm((v) => !v)}

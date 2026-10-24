@@ -8,6 +8,7 @@ import WordForm from '../components/words/WordForm.jsx';
 import WordList from '../components/words/WordList.jsx';
 import NoteList from '../components/notes/NoteList.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import UserMenu from '../components/UserMenu.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function ChapterPage() {
@@ -190,6 +191,7 @@ export default function ChapterPage() {
 
           {/* Actions: Theme toggle + View mode toggle */}
           <div className="flex items-center gap-3 flex-wrap">
+            <UserMenu />
             <ThemeToggle />
             <div className="flex items-center gap-1 bg-white/70 dark:bg-black/40 p-1 border-2 border-charcoal shadow-[2px_2px_0_var(--color-charcoal)]">
               <button

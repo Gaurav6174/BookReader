@@ -5,8 +5,8 @@ const BASE_URL = process.env.TEST_API_URL || 'http://localhost:5000/api';
 
 async function req(path, options = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
     ...options,
+    headers: { 'Content-Type': 'application/json', ...options.headers },
   });
   let json = null;
   if (res.status !== 204) {
@@ -153,3 +153,89 @@ test('Chapter deletion cascades to its words and notes', async () => {
   // Cleanup book
   await req(`/books/${bookId}`, { method: 'DELETE' });
 });
+
+test('Authentication and User Isolation', async () => {
+  const timestamp = Date.now();
+  const emailA = `readerA_${timestamp}@example.com`;
+  const emailB = `readerB_${timestamp}@example.com`;
+  const password = 'SecretPassword123';
+
+  // 1. Register User A
+  const regARes = await req('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Reader A', email: emailA, password }),
+  });
+  assert.equal(regARes.status, 201);
+  assert.ok(regARes.body.data.token);
+  assert.equal(regARes.body.data.user.email, emailA.toLowerCase());
+  const tokenA = regARes.body.data.token;
+
+  // 2. Duplicate registration should be 409
+  const dupReg = await req('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Reader A Clone', email: emailA, password }),
+  });
+  assert.equal(dupReg.status, 409);
+
+  // 3. Register User B
+  const regBRes = await req('/auth/register', {
+    method: 'POST',
+    body: JSON.stringify({ name: 'Reader B', email: emailB, password }),
+  });
+  assert.equal(regBRes.status, 201);
+  const tokenB = regBRes.body.data.token;
+
+  // 4. Login User A
+  const loginRes = await req('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email: emailA, password }),
+  });
+  assert.equal(loginRes.status, 200);
+  assert.ok(loginRes.body.data.token);
+
+  // 5. Invalid login should be 401
+  const badLogin = await req('/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email: emailA, password: 'WrongPassword!' }),
+  });
+  assert.equal(badLogin.status, 401);
+
+  // 6. Profile check with Bearer token
+  const meRes = await req('/auth/me', {
+    headers: { Authorization: `Bearer ${tokenA}` },
+  });
+  assert.equal(meRes.status, 200);
+  assert.equal(meRes.body.data.email, emailA.toLowerCase());
+
+  // 7. User A creates a private book
+  const bookARes = await req('/books', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${tokenA}` },
+    body: JSON.stringify({ title: "User A's Secret Book" }),
+  });
+  assert.equal(bookARes.status, 201);
+  const bookAId = bookARes.body.data._id;
+
+  // 8. User B lists books — should NOT see User A's book
+  const listBRes = await req('/books', {
+    headers: { Authorization: `Bearer ${tokenB}` },
+  });
+  assert.equal(listBRes.status, 200);
+  const userBHasBookA = listBRes.body.data.some((b) => b._id === bookAId);
+  assert.equal(userBHasBookA, false);
+
+  // 9. User A lists books — should see User A's book
+  const listARes = await req('/books', {
+    headers: { Authorization: `Bearer ${tokenA}` },
+  });
+  assert.equal(listARes.status, 200);
+  const userAHasBookA = listARes.body.data.some((b) => b._id === bookAId);
+  assert.equal(userAHasBookA, true);
+
+  // Cleanup
+  await req(`/books/${bookAId}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${tokenA}` },
+  });
+});
+

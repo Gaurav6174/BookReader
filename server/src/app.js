@@ -7,8 +7,10 @@ import booksRouter from './routes/books.routes.js';
 import chaptersRouter from './routes/chapters.routes.js';
 import wordsRouter from './routes/words.routes.js';
 import notesRouter from './routes/notes.routes.js';
+import authRouter from './routes/auth.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
+import { optionalAuth } from './middleware/auth.js';
 
 export function createApp({ clientOrigin }) {
   const app = express();
@@ -21,6 +23,12 @@ export function createApp({ clientOrigin }) {
 
   // Health check
   app.get('/api/health', (req, res) => res.json({ status: 'ok', ts: new Date().toISOString() }));
+
+  // Authentication routes
+  app.use('/api/auth', authRouter);
+
+  // Attach user if token is present
+  app.use(optionalAuth);
 
   // Routes
   app.use('/api/books', booksRouter);

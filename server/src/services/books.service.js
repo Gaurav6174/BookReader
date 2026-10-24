@@ -4,8 +4,9 @@ import Word from '../models/Word.js';
 import Note from '../models/Note.js';
 import { notFoundError, assertValidId } from '../middleware/validate.js';
 
-export async function getAllBooks() {
-  const books = await Book.find().sort({ createdAt: -1 });
+export async function getAllBooks(userId) {
+  const query = userId ? { userId } : {};
+  const books = await Book.find(query).sort({ createdAt: -1 });
 
   // Attach counts
   const enriched = await Promise.all(
@@ -22,22 +23,26 @@ export async function getAllBooks() {
   return enriched;
 }
 
-export async function getBook(bookId) {
+export async function getBook(bookId, userId) {
   assertValidId(bookId, 'bookId');
-  const book = await Book.findById(bookId);
+  const query = { _id: bookId };
+  if (userId) query.userId = userId;
+  const book = await Book.findOne(query);
   if (!book) throw notFoundError(`Book not found: ${bookId}`);
   return book;
 }
 
-export async function createBook({ title, author }) {
-  const book = await Book.create({ title, author });
+export async function createBook({ title, author, userId }) {
+  const book = await Book.create({ title, author, userId });
   return book;
 }
 
-export async function updateBook(bookId, { title, author }) {
+export async function updateBook(bookId, { title, author }, userId) {
   assertValidId(bookId, 'bookId');
-  const book = await Book.findByIdAndUpdate(
-    bookId,
+  const query = { _id: bookId };
+  if (userId) query.userId = userId;
+  const book = await Book.findOneAndUpdate(
+    query,
     { title, author },
     { new: true, runValidators: true }
   );
@@ -45,9 +50,11 @@ export async function updateBook(bookId, { title, author }) {
   return book;
 }
 
-export async function deleteBook(bookId) {
+export async function deleteBook(bookId, userId) {
   assertValidId(bookId, 'bookId');
-  const book = await Book.findByIdAndDelete(bookId);
+  const query = { _id: bookId };
+  if (userId) query.userId = userId;
+  const book = await Book.findOneAndDelete(query);
   if (!book) throw notFoundError(`Book not found: ${bookId}`);
 
   // Cascade: delete all chapters, words, notes belonging to this book

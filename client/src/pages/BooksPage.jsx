@@ -4,7 +4,9 @@ import BookCard from '../components/books/BookCard.jsx';
 import BookForm from '../components/books/BookForm.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import ThemeToggle from '../components/ThemeToggle.jsx';
+import UserMenu from '../components/UserMenu.jsx';
 import { useToast } from '../hooks/useToast.jsx';
+import { useAuth } from '../hooks/useAuth.jsx';
 
 export default function BooksPage() {
   const [books, setBooks] = useState([]);
@@ -14,6 +16,7 @@ export default function BooksPage() {
   const [editBook, setEditBook] = useState(null);
   const [formLoading, setFormLoading] = useState(false);
   const toast = useToast();
+  const { token } = useAuth();
 
   const fetchBooks = useCallback(async () => {
     setLoading(true);
@@ -28,7 +31,7 @@ export default function BooksPage() {
     }
   }, []);
 
-  useEffect(() => { fetchBooks(); }, [fetchBooks]);
+  useEffect(() => { fetchBooks(); }, [fetchBooks, token]);
 
   async function handleCreate(data) {
     setFormLoading(true);
@@ -88,6 +91,7 @@ export default function BooksPage() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <UserMenu />
             <ThemeToggle />
             <button
               onClick={() => { setShowForm(true); setEditBook(null); }}
