@@ -18,14 +18,14 @@ export default function UserMenu() {
       <div className="flex items-center gap-2">
         <span
           className="sketch-badge text-xs hidden sm:inline-flex"
-          style={{ background: 'var(--color-yellow)', color: '#111111' }}
+          style={{ background: 'rgba(255,255,255,0.1)', color: '#ffffff', borderColor: 'rgba(255,255,255,0.2)' }}
           title={user.email}
         >
           👤 {user.name}
         </span>
         <button
           onClick={handleLogout}
-          className="sketch-btn sketch-btn-secondary sketch-btn-sm"
+          className="sketch-btn sketch-btn-secondary"
           aria-label="Log out of your account"
           title="Log Out"
         >
@@ -39,14 +39,14 @@ export default function UserMenu() {
     <div className="flex items-center gap-2">
       <Link
         to="/login"
-        className="sketch-btn sketch-btn-secondary sketch-btn-sm"
+        className="sketch-btn sketch-btn-secondary"
         aria-label="Log in"
       >
         🔑 Log In
       </Link>
       <Link
         to="/register"
-        className="sketch-btn sketch-btn-primary sketch-btn-sm"
+        className="sketch-btn sketch-btn-primary"
         aria-label="Create an account"
       >
         ✨ Sign Up

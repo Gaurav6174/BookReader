@@ -85,8 +85,8 @@ export default function BookPage() {
   if (error) {
     return (
       <div className="notebook-bg min-h-screen p-8">
-        <div className="max-w-2xl mx-auto sketch-card" style={{ borderLeft: '6px solid #ef4444' }}>
-          <p className="text-red-700 mb-4">❌ {error}</p>
+        <div className="max-w-2xl mx-auto sketch-card" style={{ borderColor: 'rgba(220,38,38,0.5)' }}>
+          <p className="text-red-300 mb-4">❌ {error}</p>
           <button onClick={fetchData} className="sketch-btn sketch-btn-secondary">🔄 Retry</button>
         </div>
       </div>
@@ -97,8 +97,14 @@ export default function BookPage() {
     <div className="notebook-bg min-h-screen">
       {/* Header */}
       <header
-        className="sticky top-0 z-20 px-6 py-4 border-b-2 border-charcoal"
-        style={{ background: 'var(--color-purple)', fontFamily: "'Gaegu', cursive" }}
+        className="sticky top-0 z-20 px-6 py-4"
+        style={{
+          background: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(255,255,255,0.12)',
+          fontFamily: "'Gaegu', cursive"
+        }}
       >
         <div className="max-w-4xl mx-auto">
           <Breadcrumbs crumbs={[{ label: 'Books', to: '/' }, { label: book?.title || '…' }]} />

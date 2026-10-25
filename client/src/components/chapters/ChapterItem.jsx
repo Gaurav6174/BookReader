@@ -24,8 +24,8 @@ export default function ChapterItem({ chapter, onEdit, onDelete }) {
   return (
     <>
       <div
-        className="flex items-center gap-3 p-4 sketch-card cursor-pointer hover:bg-yellow-50 transition-colors"
-        style={{ borderLeft: '6px solid #d8c7ff' }}
+        className="flex items-center gap-3 p-4 sketch-card cursor-pointer hover:bg-white/[0.09] transition-all"
+        style={{ borderLeft: '3px solid rgba(255,255,255,0.35)' }}
         onClick={() => navigate(`/chapters/${chapter._id}`)}
         tabIndex={0}
         role="button"
@@ -36,7 +36,7 @@ export default function ChapterItem({ chapter, onEdit, onDelete }) {
           className="text-2xl shrink-0"
           style={{
             fontFamily: "'Gaegu', cursive",
-            color: 'var(--color-muted)',
+            color: 'rgba(255,255,255,0.5)',
             minWidth: '2rem',
             textAlign: 'center',
           }}
@@ -46,14 +46,14 @@ export default function ChapterItem({ chapter, onEdit, onDelete }) {
         </span>
         <div className="flex-1 min-w-0">
           <h3
-            className="text-lg leading-tight truncate"
+            className="text-lg leading-tight truncate text-white"
             style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}
           >
             {chapter.title}
           </h3>
           <div className="flex gap-2 mt-1 flex-wrap">
-            <Chip label={`${chapter.wordCount ?? 0} words`} color="#bbf7d0" />
-            <Chip label={`${chapter.noteCount ?? 0} notes`} color="#fbcfe8" />
+            <Chip label={`🔤 ${chapter.wordCount ?? 0} words`} />
+            <Chip label={`📝 ${chapter.noteCount ?? 0} notes`} />
           </div>
         </div>
         <div className="flex gap-2 shrink-0" onClick={(e) => e.stopPropagation()}>
@@ -86,11 +86,16 @@ export default function ChapterItem({ chapter, onEdit, onDelete }) {
   );
 }
 
-function Chip({ label, color }) {
+function Chip({ label }) {
   return (
     <span
       className="sketch-badge text-xs"
-      style={{ background: color, fontFamily: "'Patrick Hand', cursive" }}
+      style={{
+        background: 'rgba(255,255,255,0.08)',
+        borderColor: 'rgba(255,255,255,0.18)',
+        color: 'rgba(255,255,255,0.85)',
+        fontFamily: "'Patrick Hand', cursive"
+      }}
     >
       {label}
     </span>

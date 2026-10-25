@@ -11,9 +11,9 @@ export default function Breadcrumbs({ crumbs = [] }) {
         const isLast = i === crumbs.length - 1;
         return (
           <span key={i} className="flex items-center gap-1.5">
-            {i > 0 && <span aria-hidden="true" className="text-gray-400">›</span>}
+            {i > 0 && <span aria-hidden="true" className="text-white/40">›</span>}
             {isLast || !crumb.to ? (
-              <span className={isLast ? 'text-charcoal font-medium' : ''}>{crumb.label}</span>
+              <span className={isLast ? 'text-white font-medium' : ''}>{crumb.label}</span>
             ) : (
               <Link to={crumb.to}>{crumb.label}</Link>
             )}

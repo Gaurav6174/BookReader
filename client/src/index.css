@@ -1,48 +1,60 @@
+/* ─── Google Fonts ───────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Patrick+Hand&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base ─────────────────────────────────────────────── */
+/* ─── Box sizing ─────────────────────────────────────── */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* ─── Design Tokens ──────────────────────────────────── */
 :root {
-  --color-cream: #fffbf2;
-  --color-paper: #fff7df;
-  --color-charcoal: #111111;
-  --color-muted: rgba(17, 17, 17, 0.45);
-  --color-yellow: #fde047;
-  --color-purple: #d8c7ff;
-  --color-green: #bbf7d0;
-  --color-pink: #fbcfe8;
-  --color-blue: #bfdbfe;
-  --color-orange: #fed7aa;
-  --color-gray: #e5e7eb;
-  --color-red: #fecaca;
-  --color-sky: #bae6fd;
-  --font-hand: 'Patrick Hand', cursive;
+  --color-cream:    #000000;
+  --color-paper:    rgba(255,255,255,0.06);
+  --color-charcoal: #ffffff;
+  --color-muted:    rgba(255,255,255,0.45);
+  --color-yellow:   rgba(255,255,255,0.12);
+  --color-purple:   rgba(255,255,255,0.08);
+  --color-green:    rgba(255,255,255,0.10);
+  --color-pink:     rgba(255,255,255,0.08);
+  --color-blue:     rgba(255,255,255,0.10);
+  --color-orange:   rgba(255,255,255,0.08);
+  --color-gray:     rgba(255,255,255,0.06);
+  --color-red:      rgba(220,38,38,0.25);
+  --color-sky:      rgba(255,255,255,0.08);
+  --font-hand:    'Patrick Hand', cursive;
   --font-display: 'Gaegu', cursive;
+
+  /* Glass system */
+  --glass-bg:       rgba(255,255,255,0.06);
+  --glass-border:   rgba(255,255,255,0.15);
+  --glass-shadow:   0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+  --glass-blur:     blur(18px);
 }
 
+/* ─── Dark mode: same as light (always dark now) ─────── */
 html.dark {
-  --color-cream: #18181b;
-  --color-paper: #27272a;
-  --color-charcoal: #f4f4f5;
-  --color-muted: rgba(244, 244, 245, 0.55);
-  --color-yellow: #ca8a04;
-  --color-purple: #7c3aed;
-  --color-green: #059669;
-  --color-pink: #db2777;
-  --color-blue: #2563eb;
-  --color-orange: #ea580c;
-  --color-gray: #3f3f46;
-  --color-red: #dc2626;
-  --color-sky: #0284c7;
+  --color-cream:    #000000;
+  --color-paper:    rgba(255,255,255,0.07);
+  --color-charcoal: #ffffff;
+  --color-muted:    rgba(255,255,255,0.45);
+  --color-yellow:   rgba(255,255,255,0.12);
+  --color-purple:   rgba(255,255,255,0.08);
+  --color-green:    rgba(255,255,255,0.10);
+  --color-pink:     rgba(255,255,255,0.08);
+  --color-blue:     rgba(255,255,255,0.10);
+  --color-orange:   rgba(255,255,255,0.08);
+  --color-gray:     rgba(255,255,255,0.06);
+  --color-red:      rgba(220,38,38,0.25);
+  --color-sky:      rgba(255,255,255,0.08);
 }
 
+/* ─── Root & Body ────────────────────────────────────── */
 html,
 body,
 #root {
@@ -51,66 +63,80 @@ body,
 
 body {
   font-family: var(--font-hand);
-  background-color: var(--color-cream);
-  color: var(--color-charcoal);
+  background-color: #000000;
+  color: #ffffff;
   line-height: 1.6;
   margin: 0;
   padding: 0;
-  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* ─── Notebook Background ────────────────────────────── */
+/* ─── Global Background: Fixed Library Image ─────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/landing-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(0,0,0,0.85) 0%,
+    rgba(0,0,0,0.65) 50%,
+    rgba(0,0,0,0.90) 100%
+  );
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ─── Notebook Background (now transparent) ──────────── */
 .notebook-bg {
-  background-color: var(--color-cream);
-  background-image:
-    repeating-linear-gradient(transparent,
-      transparent 31px,
-      rgba(147, 197, 253, 0.35) 31px,
-      rgba(147, 197, 253, 0.35) 32px);
+  background: transparent;
   min-height: 100vh;
 }
 
 html.dark .notebook-bg {
-  background-color: #18181b;
-  background-image:
-    repeating-linear-gradient(transparent,
-      transparent 31px,
-      rgba(99, 102, 241, 0.15) 31px,
-      rgba(99, 102, 241, 0.15) 32px);
+  background: transparent;
 }
 
 /* ─── Typography ─────────────────────────────────────── */
-h1,
-h2,
-h3,
-h4 {
+h1, h2, h3, h4 {
   font-family: var(--font-display);
-  color: var(--color-charcoal);
+  color: #ffffff;
   margin: 0;
 }
 
 /* ─── Sketch Inputs ──────────────────────────────────── */
 .sketch-input {
   font-family: var(--font-hand);
-  background: var(--color-paper);
-  border: 2px solid var(--color-charcoal);
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 0;
   padding: 8px 12px;
   font-size: 15px;
-  color: var(--color-charcoal);
+  color: #ffffff;
   width: 100%;
   outline: none;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+  transition: border-color 0.15s, background 0.15s;
+  box-shadow: none;
 }
 
 .sketch-input:focus {
-  border-color: #6366f1;
-  box-shadow: 3px 3px 0 rgba(99, 102, 241, 0.2);
+  border-color: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.1);
 }
 
 .sketch-input::placeholder {
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.3);
 }
 
 textarea.sketch-input {
@@ -122,81 +148,114 @@ textarea.sketch-input {
 .sketch-btn {
   font-family: var(--font-hand);
   font-size: 15px;
-  border: 2px solid var(--color-charcoal);
+  border: 1px solid rgba(255,255,255,0.3);
   cursor: pointer;
   padding: 8px 20px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: transform 0.1s, box-shadow 0.1s;
-  box-shadow: 3px 3px 0 var(--color-charcoal);
+  transition: all 0.2s ease;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  box-shadow: none;
   position: relative;
   text-decoration: none;
   user-select: none;
+  border-radius: 0;
 }
 
 .sketch-btn:hover:not(:disabled) {
-  transform: translate(-1px, -1px);
-  box-shadow: 4px 4px 0 var(--color-charcoal);
+  background: rgba(255,255,255,0.15);
+  border-color: rgba(255,255,255,0.5);
+  transform: translateY(-1px);
 }
 
 .sketch-btn:active:not(:disabled) {
-  transform: translate(1px, 1px);
-  box-shadow: 1px 1px 0 var(--color-charcoal);
+  transform: translateY(0);
 }
 
 .sketch-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.35;
   cursor: not-allowed;
 }
 
+/* Primary = solid white, black text */
 .sketch-btn-primary {
-  background: var(--color-yellow);
-  color: var(--color-charcoal);
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
 }
 
+.sketch-btn-primary:hover:not(:disabled) {
+  background: rgba(255,255,255,0.88);
+  border-color: rgba(255,255,255,0.88);
+  color: #000000;
+}
+
+/* Secondary = ghost */
 .sketch-btn-secondary {
-  background: var(--color-paper);
-  color: var(--color-charcoal);
+  background: rgba(255,255,255,0.08);
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.25);
 }
 
+/* Danger = red-tinted glass */
 .sketch-btn-danger {
-  background: var(--color-red);
-  color: #991b1b;
-  border-color: #ef4444;
-  box-shadow: 3px 3px 0 #ef4444;
+  background: rgba(220,38,38,0.2);
+  color: #fca5a5;
+  border-color: rgba(220,38,38,0.5);
 }
 
 .sketch-btn-danger:hover:not(:disabled) {
-  box-shadow: 4px 4px 0 #ef4444;
+  background: rgba(220,38,38,0.35);
+  border-color: rgba(220,38,38,0.75);
 }
 
+/* Lookup */
 .sketch-btn-lookup {
-  background: var(--color-blue);
-  color: #1d4ed8;
-  border-color: #3b82f6;
-  box-shadow: 3px 3px 0 #3b82f6;
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+  border-color: rgba(255,255,255,0.25);
   font-size: 13px;
   padding: 6px 14px;
 }
 
 .sketch-btn-lookup:hover:not(:disabled) {
-  box-shadow: 4px 4px 0 #3b82f6;
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.5);
 }
 
+/* Small */
 .sketch-btn-sm {
   padding: 4px 12px;
   font-size: 13px;
-  box-shadow: 2px 2px 0 var(--color-charcoal);
 }
+
+/* ─── Dark-mode overrides (no-op, already dark) ──────── */
+html.dark .sketch-btn              { box-shadow: none; }
+html.dark .sketch-btn-primary      { background: #ffffff; color: #000000; }
+html.dark .sketch-btn-secondary    { background: rgba(255,255,255,0.08); color: #ffffff; }
+html.dark .sketch-btn-danger       { background: rgba(220,38,38,0.2); color: #fca5a5; }
+html.dark .sketch-btn-lookup       { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.8); }
 
 /* ─── Sketch Card ────────────────────────────────────── */
 .sketch-card {
   position: relative;
-  background: var(--color-paper);
-  border: 2px solid var(--color-charcoal);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
   padding: 20px;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.12);
+  color: #ffffff;
+}
+
+html.dark .sketch-card {
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 /* ─── Breadcrumbs ────────────────────────────────────── */
@@ -205,19 +264,22 @@ textarea.sketch-input {
   align-items: center;
   gap: 6px;
   font-size: 14px;
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.5);
   flex-wrap: wrap;
 }
 
 .breadcrumb a {
-  color: #2563eb;
+  color: rgba(255,255,255,0.7);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
 .breadcrumb a:hover {
-  color: #1d4ed8;
+  color: #ffffff;
 }
+
+html.dark .breadcrumb a       { color: rgba(255,255,255,0.7); }
+html.dark .breadcrumb a:hover { color: #ffffff; }
 
 /* ─── Badge ──────────────────────────────────────────── */
 .sketch-badge {
@@ -225,17 +287,28 @@ textarea.sketch-input {
   align-items: center;
   gap: 4px;
   padding: 2px 10px;
-  border: 1.5px solid var(--color-charcoal);
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   font-size: 12px;
   font-family: var(--font-hand);
-  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+  color: rgba(255,255,255,0.75);
+  box-shadow: none;
+}
+
+html.dark .sketch-badge {
+  color: rgba(255,255,255,0.75);
+  border-color: rgba(255,255,255,0.2);
 }
 
 /* ─── Confirm Dialog ─────────────────────────────────── */
 .dialog-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 100;
   display: flex;
   align-items: center;
@@ -244,40 +317,53 @@ textarea.sketch-input {
 }
 
 .dialog-box {
-  background: var(--color-cream);
-  border: 2px solid var(--color-charcoal);
-  box-shadow: 6px 6px 0 var(--color-charcoal);
+  background: rgba(20,20,20,0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.2);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
   padding: 28px;
   max-width: 420px;
   width: 100%;
   font-family: var(--font-hand);
+  color: #ffffff;
 }
 
-/* ─── Section Tabs ───────────────────────────────────── */
+html.dark .dialog-overlay { background: rgba(0,0,0,0.8); }
+html.dark .dialog-box     {
+  background: rgba(10,10,10,0.9);
+  color: #ffffff;
+  border-color: rgba(255,255,255,0.2);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.9);
+}
+
+/* ─── Tab Bar ────────────────────────────────────────── */
 .tab-bar {
   display: flex;
   gap: 0;
-  border-bottom: 2px solid var(--color-charcoal);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
 .tab-btn {
   font-family: var(--font-hand);
   font-size: 16px;
-  background: var(--color-gray);
-  border: 2px solid var(--color-charcoal);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
   border-bottom: none;
   padding: 10px 24px;
   cursor: pointer;
-  color: var(--color-muted);
-  margin-bottom: -2px;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: -1px;
   transition: background 0.15s, color 0.15s;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .tab-btn.active {
-  background: var(--color-paper);
-  color: var(--color-charcoal);
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
   font-weight: 600;
-  border-bottom: 2px solid var(--color-paper);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 /* ─── Word Table ─────────────────────────────────────── */
@@ -289,180 +375,89 @@ textarea.sketch-input {
 }
 
 .word-table th {
-  background: var(--color-yellow);
-  border: 1.5px solid var(--color-charcoal);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.12);
   padding: 8px 12px;
   text-align: left;
   font-size: 13px;
   font-family: var(--font-display);
+  color: #ffffff;
 }
 
 .word-table td {
-  border: 1.5px solid rgba(17, 17, 17, 0.2);
+  border: 1px solid rgba(255,255,255,0.08);
   padding: 8px 12px;
   vertical-align: top;
+  color: rgba(255,255,255,0.85);
 }
 
 .word-table tr:nth-child(even) td {
-  background: rgba(255, 247, 223, 0.5);
+  background: rgba(255,255,255,0.03);
 }
 
 .word-table tr:hover td {
-  background: rgba(253, 224, 71, 0.15);
+  background: rgba(255,255,255,0.07);
 }
+
+html.dark .word-table th    { color: #ffffff; border-color: rgba(255,255,255,0.12); }
+html.dark .word-table td    { border-color: rgba(255,255,255,0.08); color: rgba(255,255,255,0.85); }
+html.dark .word-table tr:nth-child(even) td { background: rgba(255,255,255,0.03); }
+html.dark .word-table tr:hover td           { background: rgba(255,255,255,0.07); }
 
 /* ─── Note Card ──────────────────────────────────────── */
 .note-card {
-  background: var(--color-paper);
-  border: 2px solid var(--color-charcoal);
-  border-left: 6px solid var(--color-yellow);
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-left: 3px solid rgba(255,255,255,0.35);
   padding: 16px 18px;
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
   position: relative;
+  color: rgba(255,255,255,0.9);
+}
+
+html.dark .note-card {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.12);
 }
 
 /* ─── Scrollbar ──────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-charcoal);
-  border-radius: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 3px;
 }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
 
-/* ─── Focus visible ──────────────────────────────────── */
+/* ─── Focus ──────────────────────────────────────────── */
 :focus-visible {
-  outline: 2px dashed #6366f1;
+  outline: 1px dashed rgba(255,255,255,0.6);
   outline-offset: 3px;
 }
 
-/* ─── Utility ────────────────────────────────────────── */
+/* ─── Utilities ──────────────────────────────────────── */
 .muted {
-  color: var(--color-muted);
+  color: rgba(255,255,255,0.45);
 }
 
 .error-msg {
-  color: #b91c1c;
+  color: #fca5a5;
   font-size: 13px;
   margin-top: 4px;
 }
 
 /* ─── Animations ─────────────────────────────────────── */
 @keyframes toast-in {
-  from {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(60px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.25s ease-out;
-}
-
-.animate-toast-in {
-  animation: toast-in 0.3s ease-out;
-}
-
-/* ─── Dark Mode Component Enhancements ──────────────── */
-html.dark .sketch-card {
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
-}
-
-html.dark .sketch-input {
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
-}
-
-html.dark .sketch-btn {
-  box-shadow: 3px 3px 0 var(--color-charcoal);
-}
-
-html.dark .sketch-btn-primary {
-  background: #ca8a04;
-  color: #ffffff;
-}
-
-html.dark .sketch-btn-secondary {
-  background: #27272a;
-  color: #f4f4f5;
-}
-
-html.dark .sketch-btn-danger {
-  background: #7f1d1d;
-  color: #fecaca;
-  border-color: #ef4444;
-  box-shadow: 3px 3px 0 #ef4444;
-}
-
-html.dark .sketch-btn-lookup {
-  background: #1e3a8a;
-  color: #bfdbfe;
-  border-color: #60a5fa;
-  box-shadow: 3px 3px 0 #60a5fa;
-}
-
-html.dark .sketch-badge {
-  color: #ffffff;
-  border-color: rgba(244, 244, 245, 0.7);
-}
-
-html.dark .word-table th {
-  color: #ffffff;
-  border-color: rgba(244, 244, 245, 0.4);
-}
-
-html.dark .word-table td {
-  border-color: rgba(244, 244, 245, 0.2);
-}
-
-html.dark .word-table tr:nth-child(even) td {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-html.dark .word-table tr:hover td {
-  background: rgba(255, 255, 255, 0.07);
-}
-
-html.dark .note-card {
-  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
-}
-
-html.dark .dialog-box {
-  background: #27272a;
-  color: #f4f4f5;
-  box-shadow: 6px 6px 0 rgba(244, 244, 245, 0.9);
-}
-
-html.dark .dialog-overlay {
-  background: rgba(0, 0, 0, 0.75);
-}
-
-html.dark .breadcrumb a {
-  color: #93c5fd;
-}
-
-html.dark .breadcrumb a:hover {
-  color: #bfdbfe;
-}
+.animate-fade-in  { animation: fadeIn 0.25s ease-out; }
+.animate-toast-in { animation: toast-in 0.3s ease-out; }

@@ -40,10 +40,10 @@ export function ToastProvider({ children }) {
 }
 
 const TYPE_STYLES = {
-  success: { bg: '#bbf7d0', border: '#16a34a', icon: '✓' },
-  error: { bg: '#fecaca', border: '#dc2626', icon: '✕' },
-  info: { bg: '#bfdbfe', border: '#2563eb', icon: 'ℹ' },
-  warning: { bg: '#fed7aa', border: '#d97706', icon: '⚠' },
+  success: { border: 'rgba(255,255,255,0.3)', icon: '✓' },
+  error: { border: 'rgba(220,38,38,0.6)', icon: '✕' },
+  info: { border: 'rgba(255,255,255,0.25)', icon: 'ℹ' },
+  warning: { border: 'rgba(255,255,255,0.3)', icon: '⚠' },
 };
 
 function ToastItem({ toast, onDismiss }) {
@@ -51,22 +51,24 @@ function ToastItem({ toast, onDismiss }) {
   return (
     <div
       role="status"
-      className="pointer-events-auto flex items-start gap-3 px-4 py-3 rounded-none font-patrick max-w-sm animate-toast-in"
+      className="pointer-events-auto flex items-start gap-3 px-4 py-3 max-w-sm animate-toast-in text-white"
       style={{
-        background: style.bg,
-        border: `2px solid ${style.border}`,
-        boxShadow: '3px 3px 0 rgba(0,0,0,0.15)',
+        background: 'rgba(15, 15, 15, 0.88)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: `1px solid ${style.border}`,
+        boxShadow: '0 12px 36px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1)',
         fontFamily: "'Patrick Hand', cursive",
       }}
     >
       <span className="text-lg leading-none mt-0.5" aria-hidden="true">
         {style.icon}
       </span>
-      <span className="flex-1 text-sm text-gray-900 leading-snug">{toast.message}</span>
+      <span className="flex-1 text-sm text-white/90 leading-snug">{toast.message}</span>
       <button
         onClick={onDismiss}
         aria-label="Dismiss notification"
-        className="text-gray-600 hover:text-gray-900 ml-1 leading-none text-lg font-bold"
+        className="text-white/60 hover:text-white ml-1 leading-none text-lg font-bold"
       >
         ×
       </button>

@@ -143,8 +143,8 @@ export default function ChapterPage() {
   if (error) {
     return (
       <div className="notebook-bg min-h-screen p-8">
-        <div className="max-w-3xl mx-auto sketch-card" style={{ borderLeft: '6px solid #ef4444' }}>
-          <p className="text-red-700 mb-4">❌ {error}</p>
+        <div className="max-w-3xl mx-auto sketch-card" style={{ borderColor: 'rgba(220,38,38,0.5)' }}>
+          <p className="text-red-300 mb-4">❌ {error}</p>
           <button onClick={fetchData} className="sketch-btn sketch-btn-secondary">🔄 Retry</button>
         </div>
       </div>
@@ -158,8 +158,14 @@ export default function ChapterPage() {
     <div className="notebook-bg min-h-screen">
       {/* Header */}
       <header
-        className="sticky top-0 z-20 px-6 py-4 border-b-2 border-charcoal"
-        style={{ background: 'var(--color-green)', fontFamily: "'Gaegu', cursive" }}
+        className="sticky top-0 z-20 px-6 py-4"
+        style={{
+          background: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(255,255,255,0.12)',
+          fontFamily: "'Gaegu', cursive"
+        }}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
           <div>
@@ -173,18 +179,8 @@ export default function ChapterPage() {
             <div className="flex items-center gap-3 mt-1 flex-wrap">
               <h1 className="text-2xl font-bold leading-tight">{chapter?.title}</h1>
               <div className="flex gap-2">
-                <span
-                  className="sketch-badge text-xs"
-                  style={{ background: 'var(--color-yellow)' }}
-                >
-                  🔤 {words.length} words
-                </span>
-                <span
-                  className="sketch-badge text-xs"
-                  style={{ background: 'var(--color-pink)' }}
-                >
-                  📝 {notes.length} notes
-                </span>
+                <span className="sketch-badge text-xs">🔤 {words.length} words</span>
+                <span className="sketch-badge text-xs">📝 {notes.length} notes</span>
               </div>
             </div>
           </div>
@@ -193,13 +189,13 @@ export default function ChapterPage() {
           <div className="flex items-center gap-3 flex-wrap">
             <UserMenu />
             <ThemeToggle />
-            <div className="flex items-center gap-1 bg-white/70 dark:bg-black/40 p-1 border-2 border-charcoal shadow-[2px_2px_0_var(--color-charcoal)]">
+            <div className="flex items-center gap-1 p-1" style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)' }}>
               <button
                 onClick={() => setViewFilter('both')}
-                className={`px-3 py-1 text-sm rounded-none border border-transparent transition-all ${
+                className={`px-3 py-1 text-sm transition-all ${
                   viewFilter === 'both'
-                    ? 'bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-100 border-charcoal font-bold shadow-[1px_1px_0_var(--color-charcoal)]'
-                    : 'hover:bg-black/5 dark:hover:bg-white/10 text-charcoal'
+                    ? 'bg-white text-black font-bold'
+                    : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
               >
@@ -207,10 +203,10 @@ export default function ChapterPage() {
               </button>
               <button
                 onClick={() => setViewFilter('words')}
-                className={`px-3 py-1 text-sm rounded-none border border-transparent transition-all ${
+                className={`px-3 py-1 text-sm transition-all ${
                   viewFilter === 'words'
-                    ? 'bg-yellow-200 dark:bg-yellow-800 dark:text-yellow-100 border-charcoal font-bold shadow-[1px_1px_0_var(--color-charcoal)]'
-                    : 'hover:bg-black/5 dark:hover:bg-white/10 text-charcoal'
+                    ? 'bg-white text-black font-bold'
+                    : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
               >
@@ -218,10 +214,10 @@ export default function ChapterPage() {
               </button>
               <button
                 onClick={() => setViewFilter('notes')}
-                className={`px-3 py-1 text-sm rounded-none border border-transparent transition-all ${
+                className={`px-3 py-1 text-sm transition-all ${
                   viewFilter === 'notes'
-                    ? 'bg-pink-200 dark:bg-pink-800 dark:text-pink-100 border-charcoal font-bold shadow-[1px_1px_0_var(--color-charcoal)]'
-                    : 'hover:bg-black/5 dark:hover:bg-white/10 text-charcoal'
+                    ? 'bg-white text-black font-bold'
+                    : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
               >
@@ -247,11 +243,8 @@ export default function ChapterPage() {
             >
               {/* Words Section Header */}
               <div
-                className="flex items-center justify-between p-3.5 sketch-card border-l-[6px]"
-                style={{
-                  borderLeftColor: 'var(--color-yellow)',
-                  background: 'var(--color-paper)',
-                }}
+                className="flex items-center justify-between p-3.5 sketch-card border-l-[3px]"
+                style={{ borderLeftColor: 'rgba(255,255,255,0.4)' }}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-xl" aria-hidden="true">🔤</span>
@@ -263,7 +256,7 @@ export default function ChapterPage() {
                   </h2>
                   <span
                     className="sketch-badge text-xs"
-                    style={{ background: 'var(--color-yellow)' }}
+                    style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.2)', color: '#ffffff' }}
                   >
                     {words.length}
                   </span>
@@ -313,11 +306,8 @@ export default function ChapterPage() {
             >
               {/* Notes Section Header */}
               <div
-                className="flex items-center justify-between p-3.5 sketch-card border-l-[6px]"
-                style={{
-                  borderLeftColor: 'var(--color-pink)',
-                  background: 'var(--color-paper)',
-                }}
+                className="flex items-center justify-between p-3.5 sketch-card border-l-[3px]"
+                style={{ borderLeftColor: 'rgba(255,255,255,0.25)' }}
               >
                 <div className="flex items-center gap-2">
                   <span className="text-xl" aria-hidden="true">📝</span>
@@ -329,7 +319,7 @@ export default function ChapterPage() {
                   </h2>
                   <span
                     className="sketch-badge text-xs"
-                    style={{ background: 'var(--color-pink)' }}
+                    style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.2)', color: '#ffffff' }}
                   >
                     {notes.length}
                   </span>
@@ -340,9 +330,6 @@ export default function ChapterPage() {
                   className={`sketch-btn sketch-btn-sm ${
                     creatingNote ? 'sketch-btn-secondary' : 'sketch-btn-primary'
                   }`}
-                  style={{
-                    background: creatingNote ? undefined : 'var(--color-pink)',
-                  }}
                   aria-expanded={creatingNote}
                   aria-label={creatingNote ? 'Collapse note panel' : 'Write new note'}
                 >

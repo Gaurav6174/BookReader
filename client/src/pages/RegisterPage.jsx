@@ -69,7 +69,6 @@ export default function RegisterPage() {
       <main className="flex-1 flex items-center justify-center p-6">
         <div
           className="sketch-card w-full max-w-md animate-fade-in"
-          style={{ borderLeft: '6px solid var(--color-green)' }}
         >
           <div className="text-center mb-6">
             <span className="text-4xl" aria-hidden="true">✨</span>
@@ -83,9 +82,9 @@ export default function RegisterPage() {
 
           {error && (
             <div
-              className="p-3 mb-4 rounded-none border border-red-500 bg-red-100 text-red-800 text-sm"
+              className="p-3 mb-4 border text-sm"
               role="alert"
-              style={{ fontFamily: "'Patrick Hand', cursive" }}
+              style={{ borderColor: 'rgba(220,38,38,0.5)', background: 'rgba(220,38,38,0.12)', color: '#fca5a5', fontFamily: "'Patrick Hand', cursive" }}
             >
               ⚠️ {error}
             </div>
@@ -162,16 +161,15 @@ export default function RegisterPage() {
               type="submit"
               disabled={loading}
               className="sketch-btn sketch-btn-primary w-full justify-center py-2.5 mt-2"
-              style={{ background: 'var(--color-green)' }}
             >
               {loading ? '⏳ Creating account…' : '🎉 Create Account'}
             </button>
           </form>
 
-          <div className="text-center mt-6 pt-4 border-t border-dashed border-gray-300 dark:border-gray-700">
+          <div className="text-center mt-6 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.1)' }}>
             <p className="text-sm" style={{ fontFamily: "'Patrick Hand', cursive" }}>
               Already have an account?{' '}
-              <Link to="/login" className="font-bold underline text-blue-600 dark:text-blue-400">
+              <Link to="/login" className="font-bold underline text-white hover:opacity-80">
                 Log in here
               </Link>
             </p>

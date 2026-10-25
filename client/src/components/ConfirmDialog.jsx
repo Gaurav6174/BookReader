@@ -50,7 +50,7 @@ export default function ConfirmDialog({ open, title, message, onConfirm, onCance
         <h2 id="confirm-title" className="text-xl mb-3" style={{ fontFamily: "'Gaegu', cursive" }}>
           ⚠️ {title}
         </h2>
-        <p className="text-sm mb-6 text-gray-700" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+        <p className="text-sm mb-6 text-white/70" style={{ fontFamily: "'Patrick Hand', cursive" }}>
           {message}
         </p>
         <div className="flex gap-3 justify-end flex-wrap">

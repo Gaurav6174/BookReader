@@ -80,7 +80,7 @@ export default function WordForm({ onSubmit, loading, onCollapse }) {
       noValidate
       aria-label="Add a new word"
       className="sketch-card mb-6 animate-fade-in"
-      style={{ borderLeft: '6px solid var(--color-yellow)' }}
+      style={{ borderLeft: '3px solid rgba(255,255,255,0.35)' }}
     >
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg" style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}>

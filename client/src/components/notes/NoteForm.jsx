@@ -44,7 +44,7 @@ export default function NoteForm({ editNote, onSubmit, onCancel, loading }) {
       noValidate
       className="sketch-card animate-fade-in mb-4"
       aria-label={editNote ? 'Edit note' : 'Write a note'}
-      style={{ borderLeft: '6px solid #bbf7d0' }}
+      style={{ borderLeft: '3px solid rgba(255,255,255,0.35)' }}
     >
       <div className="flex items-center justify-between mb-3">
         <h3 className="text-lg" style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}>

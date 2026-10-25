@@ -9,47 +9,46 @@ export default function BookCard({ book, onEdit, onDelete }) {
   const navigate = useNavigate();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
-  const COLORS = ['#fde047', '#d8c7ff', '#bbf7d0', '#fbcfe8', '#bfdbfe', '#fed7aa'];
-  // Deterministic color from title
-  const colorIdx = book.title.charCodeAt(0) % COLORS.length;
-  const accentColor = COLORS[colorIdx];
-
   return (
     <>
       <div
-        className="sketch-card animate-fade-in cursor-pointer hover:shadow-lg transition-shadow"
-        style={{ borderLeft: `6px solid ${accentColor}` }}
+        className="sketch-card animate-fade-in cursor-pointer flex flex-col justify-between h-full transition-all duration-300"
+        style={{
+          borderLeft: '3px solid rgba(255,255,255,0.4)',
+        }}
         onClick={() => navigate(`/books/${book._id}`)}
         tabIndex={0}
         role="article"
         aria-label={`Book: ${book.title}`}
         onKeyDown={(e) => e.key === 'Enter' && navigate(`/books/${book._id}`)}
       >
-        {/* Title & Author */}
-        <div className="mb-3">
-          <h2
-            className="text-2xl leading-tight"
-            style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}
-          >
-            {book.title}
-          </h2>
-          {book.author && (
-            <p className="text-sm muted mt-0.5" style={{ fontFamily: "'Patrick Hand', cursive" }}>
-              by {book.author}
-            </p>
-          )}
-        </div>
+        <div>
+          {/* Title & Author */}
+          <div className="mb-3">
+            <h2
+              className="text-2xl leading-tight"
+              style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}
+            >
+              {book.title}
+            </h2>
+            {book.author && (
+              <p className="text-sm muted mt-0.5" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+                by {book.author}
+              </p>
+            )}
+          </div>
 
-        {/* Counts */}
-        <div className="flex gap-3 flex-wrap mb-4">
-          <Chip label={`${book.chapterCount ?? 0} chapters`} color="#bfdbfe" />
-          <Chip label={`${book.wordCount ?? 0} words`} color="#bbf7d0" />
-          <Chip label={`${book.noteCount ?? 0} notes`} color="#fbcfe8" />
+          {/* Counts */}
+          <div className="flex gap-2 flex-wrap mb-4">
+            <Chip label={`📖 ${book.chapterCount ?? 0} chapters`} />
+            <Chip label={`🔤 ${book.wordCount ?? 0} words`} />
+            <Chip label={`📝 ${book.noteCount ?? 0} notes`} />
+          </div>
         </div>
 
         {/* Actions */}
         <div
-          className="flex gap-2 pt-3 border-t border-dashed border-gray-300"
+          className="flex gap-2 pt-3 border-t border-white/10 mt-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <button
@@ -81,11 +80,16 @@ export default function BookCard({ book, onEdit, onDelete }) {
   );
 }
 
-function Chip({ label, color }) {
+function Chip({ label }) {
   return (
     <span
       className="sketch-badge text-xs"
-      style={{ background: color, fontFamily: "'Patrick Hand', cursive" }}
+      style={{
+        background: 'rgba(255,255,255,0.08)',
+        borderColor: 'rgba(255,255,255,0.18)',
+        color: 'rgba(255,255,255,0.85)',
+        fontFamily: "'Patrick Hand', cursive"
+      }}
     >
       {label}
     </span>

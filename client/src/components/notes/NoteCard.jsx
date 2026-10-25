@@ -40,7 +40,14 @@ export default function NoteCard({ note, onUpdate, onDelete }) {
         <div className="flex items-center justify-between mb-2 flex-wrap gap-1">
           <span className="text-xs muted">{dateStr}</span>
           {note.pageNumber && (
-            <span className="sketch-badge" style={{ background: '#bfdbfe' }}>
+            <span
+              className="sketch-badge text-xs"
+              style={{
+                background: 'rgba(255,255,255,0.08)',
+                borderColor: 'rgba(255,255,255,0.18)',
+                color: 'rgba(255,255,255,0.85)'
+              }}
+            >
               p. {note.pageNumber}
             </span>
           )}
@@ -48,14 +55,14 @@ export default function NoteCard({ note, onUpdate, onDelete }) {
 
         {/* Content — preserve line breaks */}
         <p
-          className="text-sm leading-relaxed whitespace-pre-wrap mb-3"
+          className="text-sm leading-relaxed whitespace-pre-wrap mb-3 text-white/90"
           style={{ fontFamily: "'Patrick Hand', cursive" }}
         >
           {note.content}
         </p>
 
         {/* Actions */}
-        <div className="flex gap-2 pt-2 border-t border-dashed border-gray-200">
+        <div className="flex gap-2 pt-2 border-t border-white/10">
           <button
             onClick={() => setEditing(true)}
             className="sketch-btn sketch-btn-secondary sketch-btn-sm"

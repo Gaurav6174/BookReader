@@ -77,8 +77,14 @@ export default function BooksPage() {
     <div className="notebook-bg min-h-screen">
       {/* Page Header */}
       <header
-        className="sticky top-0 z-20 px-6 py-4 border-b-2 border-charcoal"
-        style={{ background: 'var(--color-yellow)', fontFamily: "'Gaegu', cursive" }}
+        className="sticky top-0 z-20 px-6 py-4"
+        style={{
+          background: 'rgba(0,0,0,0.55)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderBottom: '1px solid rgba(255,255,255,0.12)',
+          fontFamily: "'Gaegu', cursive"
+        }}
       >
         <div className="max-w-5xl mx-auto flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -129,8 +135,8 @@ export default function BooksPage() {
 
         {/* Error */}
         {error && !loading && (
-          <div className="sketch-card text-center py-10" style={{ borderColor: '#ef4444', borderLeft: '6px solid #ef4444' }}>
-            <p className="text-red-700 mb-4">❌ {error}</p>
+          <div className="sketch-card text-center py-10" style={{ borderColor: 'rgba(220,38,38,0.5)' }}>
+            <p className="text-red-300 mb-4">❌ {error}</p>
             <button onClick={fetchBooks} className="sketch-btn sketch-btn-secondary">
               🔄 Retry
             </button>

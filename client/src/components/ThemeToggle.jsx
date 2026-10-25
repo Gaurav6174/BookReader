@@ -10,10 +10,11 @@ export default function ThemeToggle({ className = '' }) {
     <button
       type="button"
       onClick={toggleTheme}
-      className={`sketch-btn sketch-btn-sm whitespace-nowrap ${className}`}
+      className={`sketch-btn whitespace-nowrap ${className}`}
       style={{
-        background: isDark ? '#3f3f46' : 'var(--color-paper)',
-        color: 'var(--color-charcoal)',
+        background: 'rgba(255,255,255,0.08)',
+        color: '#ffffff',
+        borderColor: 'rgba(255,255,255,0.25)',
       }}
       aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
       title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
