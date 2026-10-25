@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import WordRow from './WordRow.jsx';
-import EmptyState from '../EmptyState.jsx';
 
 /**
- * WordList — table of saved words with search filter.
+ * WordList — clean, distraction-free list of saved words without table borders.
  */
-export default function WordList({ words, onUpdate, onDelete, onAddWord, isAddingWord = false }) {
+export default function WordList({ words, onUpdate, onDelete, isAddingWord = false }) {
   const [filter, setFilter] = useState('');
 
   const filtered = filter.trim()
@@ -21,60 +20,40 @@ export default function WordList({ words, onUpdate, onDelete, onAddWord, isAddin
       return null;
     }
     return (
-      <EmptyState
-        icon="📖"
-        title="No words yet"
-        message="Type a word to start building your vocabulary list."
-        action={
-          onAddWord ? (
-            <button onClick={onAddWord} className="sketch-btn sketch-btn-primary">
-              ➕ Add First Word
-            </button>
-          ) : null
-        }
-      />
+      <div className="py-6 text-white/40 text-sm" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+        No words saved yet. Click the <span className="text-white/70 font-bold">+</span> below to add your first word.
+      </div>
     );
   }
 
   return (
     <div className="animate-fade-in">
-      {/* Search filter */}
-      <div className="mb-3">
-        <label htmlFor="word-filter" className="sr-only">Filter words</label>
-        <input
-          id="word-filter"
-          type="search"
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="sketch-input"
-          placeholder="🔎 Filter words…"
-          aria-label="Filter saved words"
-        />
-      </div>
+      {/* Optional quiet filter only if there are several words */}
+      {words.length > 5 && (
+        <div className="mb-2">
+          <input
+            type="search"
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="w-full bg-transparent border-b border-white/10 text-xs py-1 px-0 text-white placeholder-white/30 outline-none focus:border-white/30 transition-colors"
+            placeholder="Filter words…"
+            aria-label="Filter saved words"
+            style={{ fontFamily: "'Patrick Hand', cursive" }}
+          />
+        </div>
+      )}
 
       {filtered.length === 0 && (
-        <p className="text-center muted py-8" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+        <p className="text-center text-white/40 py-6 text-sm" style={{ fontFamily: "'Patrick Hand', cursive" }}>
           No words match "<strong>{filter}</strong>"
         </p>
       )}
 
       {filtered.length > 0 && (
-        <div className="overflow-x-auto">
-          <table className="word-table" aria-label="Saved words">
-            <thead>
-              <tr>
-                <th scope="col">Word</th>
-                <th scope="col">Meaning</th>
-                <th scope="col">Example Sentence</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((w) => (
-                <WordRow key={w._id} word={w} onUpdate={onUpdate} onDelete={onDelete} />
-              ))}
-            </tbody>
-          </table>
+        <div className="divide-y divide-white/5">
+          {filtered.map((w) => (
+            <WordRow key={w._id} word={w} onUpdate={onUpdate} onDelete={onDelete} />
+          ))}
         </div>
       )}
     </div>

@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
 /**
- * BookForm — inline form for creating or editing a book.
- * When editBook is provided, it's in edit mode.
+ * BookForm — inline form for creating or editing a book below the books list.
  */
 export default function BookForm({ editBook, onSubmit, onCancel, loading }) {
   const [title, setTitle] = useState(editBook?.title ?? '');
@@ -32,17 +31,17 @@ export default function BookForm({ editBook, onSubmit, onCancel, loading }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="sketch-card animate-fade-in"
+      className="p-5 border border-white/15 bg-white/[0.04] backdrop-blur-md rounded-xl animate-fade-in"
       aria-label={editBook ? 'Edit book' : 'Add new book'}
       noValidate
     >
-      <h3 className="text-xl mb-4" style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}>
-        {editBook ? '✏️ Edit Book' : '📚 Add New Book'}
-      </h3>
-
       <div className="mb-3">
-        <label htmlFor="book-title" className="block text-sm mb-1 font-medium">
-          Book Title <span aria-hidden="true" className="text-red-500">*</span>
+        <label
+          htmlFor="book-title"
+          className="block text-xs uppercase tracking-wider text-white/50 mb-1"
+          style={{ fontFamily: "'Gaegu', cursive" }}
+        >
+          Book Title <span aria-hidden="true" className="text-red-400">*</span>
         </label>
         <input
           id="book-title"
@@ -50,7 +49,7 @@ export default function BookForm({ editBook, onSubmit, onCancel, loading }) {
           type="text"
           value={title}
           onChange={(e) => { setTitle(e.target.value); setErrors((p) => ({ ...p, title: '' })); }}
-          className="sketch-input"
+          className="sketch-input py-1.5 text-sm"
           placeholder="e.g. The Alchemist"
           aria-required="true"
           aria-describedby={errors.title ? 'book-title-err' : undefined}
@@ -59,16 +58,20 @@ export default function BookForm({ editBook, onSubmit, onCancel, loading }) {
         {errors.title && <p id="book-title-err" className="error-msg" role="alert">{errors.title}</p>}
       </div>
 
-      <div className="mb-5">
-        <label htmlFor="book-author" className="block text-sm mb-1">
-          Author <span className="muted">(optional)</span>
+      <div className="mb-4">
+        <label
+          htmlFor="book-author"
+          className="block text-xs uppercase tracking-wider text-white/50 mb-1"
+          style={{ fontFamily: "'Gaegu', cursive" }}
+        >
+          Author <span className="normal-case text-white/30 text-[11px]">(optional)</span>
         </label>
         <input
           id="book-author"
           type="text"
           value={author}
           onChange={(e) => { setAuthor(e.target.value); setErrors((p) => ({ ...p, author: '' })); }}
-          className="sketch-input"
+          className="sketch-input py-1.5 text-sm"
           placeholder="e.g. Paulo Coelho"
           maxLength={150}
           aria-describedby={errors.author ? 'book-author-err' : undefined}
@@ -76,12 +79,12 @@ export default function BookForm({ editBook, onSubmit, onCancel, loading }) {
         {errors.author && <p id="book-author-err" className="error-msg" role="alert">{errors.author}</p>}
       </div>
 
-      <div className="flex gap-3 flex-wrap">
-        <button type="submit" disabled={loading} className="sketch-btn sketch-btn-primary">
-          {loading ? '⏳ Saving…' : editBook ? '💾 Save Changes' : '➕ Add Book'}
+      <div className="flex items-center gap-2">
+        <button type="submit" disabled={loading} className="sketch-btn sketch-btn-primary sketch-btn-sm">
+          {loading ? '⏳' : editBook ? 'Save Changes' : 'Save Book'}
         </button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="sketch-btn sketch-btn-secondary">
+          <button type="button" onClick={onCancel} className="sketch-btn sketch-btn-secondary sketch-btn-sm">
             Cancel
           </button>
         )}

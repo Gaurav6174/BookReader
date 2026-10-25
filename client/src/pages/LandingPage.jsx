@@ -4,27 +4,31 @@ import { useAuth } from '../hooks/useAuth.jsx';
 /* ─────────────────────────────────────────────────────────────
    Glass panel — the core reusable wrapper
 ───────────────────────────────────────────────────────────── */
-function Glass({ children, style = {}, hover = false }) {
+function Glass({ children, style = {}, hover = false, className = '' }) {
   return (
     <div
+      className={className}
       style={{
         background: 'rgba(255,255,255,0.06)',
         backdropFilter: 'blur(18px)',
         WebkitBackdropFilter: 'blur(18px)',
         border: '1px solid rgba(255,255,255,0.15)',
         boxShadow: '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)',
-        transition: hover ? 'all 0.3s ease' : undefined,
+        borderRadius: '14px',
+        transition: hover ? 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)' : undefined,
         ...style,
       }}
       onMouseEnter={hover ? e => {
-        e.currentTarget.style.background = 'rgba(255,255,255,0.1)';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.28)';
+        e.currentTarget.style.background = 'rgba(255,255,255,0.12)';
+        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.38)';
         e.currentTarget.style.transform = 'translateY(-4px)';
+        e.currentTarget.style.boxShadow = '0 16px 40px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2)';
       } : undefined}
       onMouseLeave={hover ? e => {
-        e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
-        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.15)';
-        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.background = style.background || 'rgba(255,255,255,0.06)';
+        e.currentTarget.style.borderColor = style.borderColor || 'rgba(255,255,255,0.15)';
+        e.currentTarget.style.transform = style.transform || 'translateY(0)';
+        e.currentTarget.style.boxShadow = style.boxShadow || '0 8px 32px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1)';
       } : undefined}
     >
       {children}
@@ -68,7 +72,7 @@ function FeatureCard({ emoji, title, desc }) {
 function Step({ number, title, desc }) {
   return (
     <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-      <Glass style={{
+      <Glass hover style={{
         minWidth: '44px',
         height: '44px',
         display: 'flex',
@@ -80,6 +84,8 @@ function Step({ number, title, desc }) {
         color: '#ffffff',
         flexShrink: 0,
         background: 'rgba(255,255,255,0.12)',
+        borderRadius: '10px',
+        cursor: 'default',
       }}>
         {number}
       </Glass>
@@ -112,7 +118,7 @@ function Step({ number, title, desc }) {
 ───────────────────────────────────────────────────────────── */
 function MockBookCard({ title, author, chapters, words, style = {} }) {
   return (
-    <Glass style={{ padding: '18px 20px', ...style }}>
+    <Glass hover style={{ padding: '18px 20px', cursor: 'default', borderRadius: '14px', ...style }}>
       <div style={{ fontFamily: "'Gaegu', cursive", fontSize: '15px', fontWeight: 700, color: '#ffffff', marginBottom: '4px' }}>
         {title}
       </div>
@@ -127,6 +133,7 @@ function MockBookCard({ title, author, chapters, words, style = {} }) {
             color: 'rgba(255,255,255,0.75)',
             fontSize: '11px',
             padding: '2px 8px',
+            borderRadius: '6px',
             fontFamily: "'Patrick Hand', cursive",
           }}>
             {label}
@@ -142,15 +149,16 @@ function MockBookCard({ title, author, chapters, words, style = {} }) {
 ───────────────────────────────────────────────────────────── */
 function Pill({ children }) {
   return (
-    <Glass style={{
+    <Glass hover style={{
       display: 'inline-flex',
       alignItems: 'center',
       gap: '6px',
       padding: '4px 14px',
       borderRadius: '999px',
       fontSize: '12px',
-      color: 'rgba(255,255,255,0.65)',
+      color: 'rgba(255,255,255,0.7)',
       marginBottom: '16px',
+      cursor: 'default',
     }}>
       <span style={{ fontFamily: "'Patrick Hand', cursive" }}>{children}</span>
     </Glass>
@@ -247,11 +255,11 @@ export default function LandingPage() {
             </div>
             <div style={{ display: 'flex', gap: '10px' }}>
               {isAuthenticated ? (
-                <Link to="/" style={btnSecondary}>My Library →</Link>
+                <Link to="/" className="landing-btn-secondary">My Library →</Link>
               ) : (
                 <>
-                  <Link to="/login" style={btnSecondary}>Log In</Link>
-                  <Link to="/register" style={btnPrimary}>✨ Sign Up Free</Link>
+                  <Link to="/login" className="landing-btn-secondary">Log In</Link>
+                  <Link to="/register" className="landing-btn-primary">✨ Sign Up Free</Link>
                 </>
               )}
             </div>
@@ -298,11 +306,11 @@ export default function LandingPage() {
             </p>
             <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               {isAuthenticated ? (
-                <Link to="/" style={{ ...btnPrimary, fontSize: '16px', padding: '12px 32px' }}>📚 Open My Library</Link>
+                <Link to="/" className="landing-btn-primary" style={{ fontSize: '16px', padding: '12px 32px' }}>📚 Open My Library</Link>
               ) : (
                 <>
-                  <Link to="/register" style={{ ...btnPrimary, fontSize: '16px', padding: '12px 32px' }}>✨ Start for Free</Link>
-                  <Link to="/login" style={{ ...btnSecondary, fontSize: '16px', padding: '12px 32px' }}>Log In</Link>
+                  <Link to="/register" className="landing-btn-primary" style={{ fontSize: '16px', padding: '12px 32px' }}>✨ Start for Free</Link>
+                  <Link to="/login" className="landing-btn-secondary" style={{ fontSize: '16px', padding: '12px 32px' }}>Log In</Link>
                 </>
               )}
             </div>
@@ -450,11 +458,11 @@ export default function LandingPage() {
           </p>
           <div style={{ display: 'flex', gap: '14px', justifyContent: 'center', flexWrap: 'wrap' }}>
             {isAuthenticated ? (
-              <Link to="/" style={{ ...btnPrimary, fontSize: '17px', padding: '14px 40px' }}>📚 Go to My Library</Link>
+              <Link to="/" className="landing-btn-primary" style={{ fontSize: '17px', padding: '14px 40px' }}>📚 Go to My Library</Link>
             ) : (
               <>
-                <Link to="/register" style={{ ...btnPrimary, fontSize: '17px', padding: '14px 40px' }}>✨ Create Free Account</Link>
-                <Link to="/login" style={{ ...btnSecondary, fontSize: '17px', padding: '14px 40px' }}>Log In</Link>
+                <Link to="/register" className="landing-btn-primary" style={{ fontSize: '17px', padding: '14px 40px' }}>✨ Create Free Account</Link>
+                <Link to="/login" className="landing-btn-secondary" style={{ fontSize: '17px', padding: '14px 40px' }}>Log In</Link>
               </>
             )}
           </div>

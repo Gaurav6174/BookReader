@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { useToast } from '../hooks/useToast.jsx';
-import ThemeToggle from '../components/ThemeToggle.jsx';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -58,17 +57,17 @@ export default function RegisterPage() {
     <div className="notebook-bg min-h-screen flex flex-col justify-between">
       {/* Top Header */}
       <header className="px-6 py-4 flex items-center justify-between max-w-4xl mx-auto w-full">
-        <Link to="/" className="flex items-center gap-2 text-xl font-bold" style={{ fontFamily: "'Gaegu', cursive" }}>
+        <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white hover:text-white/90 hover:-translate-x-0.5 transition-all duration-200" style={{ fontFamily: "'Gaegu', cursive" }}>
           <span>📚</span>
           <span>Book Reading Companion</span>
         </Link>
-        <ThemeToggle />
       </header>
 
       {/* Main Form */}
       <main className="flex-1 flex items-center justify-center p-6">
         <div
-          className="sketch-card w-full max-w-md animate-fade-in"
+          className="sketch-card rounded-2xl w-full max-w-md animate-fade-in"
+          style={{ borderRadius: '16px' }}
         >
           <div className="text-center mb-6">
             <span className="text-4xl" aria-hidden="true">✨</span>

@@ -1,13 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { chaptersApi } from '../api/chapters.js';
 import { wordsApi } from '../api/words.js';
 import { notesApi } from '../api/notes.js';
-import Breadcrumbs from '../components/Breadcrumbs.jsx';
 import WordForm from '../components/words/WordForm.jsx';
 import WordList from '../components/words/WordList.jsx';
 import NoteList from '../components/notes/NoteList.jsx';
-import ThemeToggle from '../components/ThemeToggle.jsx';
+import NoteForm from '../components/notes/NoteForm.jsx';
 import UserMenu from '../components/UserMenu.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
@@ -134,8 +133,10 @@ export default function ChapterPage() {
   if (loading) {
     return (
       <div className="notebook-bg min-h-screen flex items-center justify-center">
-        <span className="text-4xl animate-bounce" aria-hidden="true">📝</span>
-        <span className="ml-3 text-lg muted">Loading chapter…</span>
+        <span className="text-4xl animate-bounce" aria-hidden="true">📖</span>
+        <span className="ml-3 text-lg muted" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+          Loading chapter…
+        </span>
       </div>
     );
   }
@@ -143,7 +144,7 @@ export default function ChapterPage() {
   if (error) {
     return (
       <div className="notebook-bg min-h-screen p-8">
-        <div className="max-w-3xl mx-auto sketch-card" style={{ borderColor: 'rgba(220,38,38,0.5)' }}>
+        <div className="max-w-2xl mx-auto sketch-card" style={{ borderColor: 'rgba(220,38,38,0.5)' }}>
           <p className="text-red-300 mb-4">❌ {error}</p>
           <button onClick={fetchData} className="sketch-btn sketch-btn-secondary">🔄 Retry</button>
         </div>
@@ -156,197 +157,186 @@ export default function ChapterPage() {
 
   return (
     <div className="notebook-bg min-h-screen">
-      {/* Header */}
+      {/* Streamlined, distraction-free nav panel */}
       <header
-        className="sticky top-0 z-20 px-6 py-4"
+        className="sticky top-0 z-20 px-6 py-3 border-b border-white/10"
         style={{
-          background: 'rgba(0,0,0,0.55)',
-          backdropFilter: 'blur(24px)',
-          WebkitBackdropFilter: 'blur(24px)',
-          borderBottom: '1px solid rgba(255,255,255,0.12)',
-          fontFamily: "'Gaegu', cursive"
+          background: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
         }}
       >
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4 flex-wrap">
-          <div>
-            <Breadcrumbs
-              crumbs={[
-                { label: 'Books', to: '/' },
-                { label: bookTitle, to: `/books/${bookId}` },
-                { label: chapter?.title || '…' },
-              ]}
-            />
-            <div className="flex items-center gap-3 mt-1 flex-wrap">
-              <h1 className="text-2xl font-bold leading-tight">{chapter?.title}</h1>
-              <div className="flex gap-2">
-                <span className="sketch-badge text-xs">🔤 {words.length} words</span>
-                <span className="sketch-badge text-xs">📝 {notes.length} notes</span>
-              </div>
-            </div>
+        <div className="max-w-6xl mx-auto flex items-center justify-between gap-4">
+          {/* Breadcrumb + Chapter Title */}
+          <div className="flex items-center gap-2.5 min-w-0">
+            <Link
+              to={`/books/${bookId}`}
+              className="text-white/50 hover:text-white text-sm flex items-center gap-1.5 shrink-0 hover:-translate-x-1 transition-all duration-200"
+              style={{ fontFamily: "'Patrick Hand', cursive" }}
+              title={`Back to ${bookTitle}`}
+            >
+              <span>←</span>
+              <span>{bookTitle}</span>
+            </Link>
+            <span className="text-white/20 text-xs">/</span>
+            <h1
+              className="text-xl font-bold truncate text-white"
+              style={{ fontFamily: "'Gaegu', cursive" }}
+            >
+              {chapter?.title}
+            </h1>
           </div>
 
-          {/* Actions: Theme toggle + View mode toggle */}
-          <div className="flex items-center gap-3 flex-wrap">
-            <UserMenu />
-            <ThemeToggle />
-            <div className="flex items-center gap-1 p-1" style={{ background: 'rgba(255,255,255,0.06)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+          {/* Controls: Split/Words/Notes Switcher + User/Theme */}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="flex items-center text-xs rounded-lg border border-white/10 p-0.5 bg-white/[0.04]">
               <button
                 onClick={() => setViewFilter('both')}
-                className={`px-3 py-1 text-sm transition-all ${
-                  viewFilter === 'both'
-                    ? 'bg-white text-black font-bold'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                className={`px-2.5 py-1 rounded transition-all duration-150 ${
+                  viewFilter === 'both' ? 'bg-white text-black font-bold shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
+                title="View words and notes side by side"
               >
-                📖 Split View
+                Split
               </button>
               <button
                 onClick={() => setViewFilter('words')}
-                className={`px-3 py-1 text-sm transition-all ${
-                  viewFilter === 'words'
-                    ? 'bg-white text-black font-bold'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                className={`px-2.5 py-1 rounded transition-all duration-150 ${
+                  viewFilter === 'words' ? 'bg-white text-black font-bold shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
+                title="View words only"
               >
-                🔤 Words
+                Words
               </button>
               <button
                 onClick={() => setViewFilter('notes')}
-                className={`px-3 py-1 text-sm transition-all ${
-                  viewFilter === 'notes'
-                    ? 'bg-white text-black font-bold'
-                    : 'text-white/60 hover:text-white hover:bg-white/10'
+                className={`px-2.5 py-1 rounded transition-all duration-150 ${
+                  viewFilter === 'notes' ? 'bg-white text-black font-bold shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'
                 }`}
                 style={{ fontFamily: "'Patrick Hand', cursive" }}
+                title="View notes only"
               >
-                📝 Notes
+                Notes
               </button>
             </div>
+
+            <UserMenu />
           </div>
         </div>
       </header>
 
-      {/* Main Content Area: Both Words & Notes in the same space */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Main Reading Companion View: Clean, Open & Uncluttered */}
+      <main className="max-w-6xl mx-auto px-6 py-8">
         <div
-          className={`grid gap-8 items-start ${
-            viewFilter === 'both' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1'
+          className={`grid gap-10 items-start ${
+            viewFilter === 'both' ? 'grid-cols-1 lg:grid-cols-2' : 'grid-cols-1 max-w-2xl mx-auto'
           }`}
         >
           {/* ─── WORDS SECTION ─────────────────────────────── */}
           {(viewFilter === 'both' || viewFilter === 'words') && (
-            <section
-              className="space-y-4"
-              aria-label="Words and Vocabulary section"
-            >
-              {/* Words Section Header */}
-              <div
-                className="flex items-center justify-between p-3.5 sketch-card border-l-[3px]"
-                style={{ borderLeftColor: 'rgba(255,255,255,0.4)' }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xl" aria-hidden="true">🔤</span>
-                  <h2
-                    className="text-xl font-bold leading-tight"
-                    style={{ fontFamily: "'Gaegu', cursive" }}
-                  >
-                    Words & Vocabulary
-                  </h2>
-                  <span
-                    className="sketch-badge text-xs"
-                    style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.2)', color: '#ffffff' }}
-                  >
-                    {words.length}
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => setShowWordForm((prev) => !prev)}
-                  className={`sketch-btn sketch-btn-sm ${
-                    showWordForm ? 'sketch-btn-secondary' : 'sketch-btn-primary'
-                  }`}
-                  aria-expanded={showWordForm}
-                  aria-label={showWordForm ? 'Collapse save word panel' : 'Add new word'}
+            <section aria-label="Words and Vocabulary">
+              {/* Clean Section Header (No boxes) */}
+              <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/10">
+                <h2
+                  className="text-xl font-bold tracking-wide text-white"
+                  style={{ fontFamily: "'Gaegu', cursive" }}
                 >
-                  {showWordForm ? '▲ Collapse' : '➕ Add Word'}
-                </button>
+                  Words
+                </h2>
+                <span className="text-xs text-white/40" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+                  {words.length} saved
+                </span>
               </div>
 
-              {/* Collapsible Word Form */}
-              {showWordForm && (
-                <WordForm
-                  onSubmit={async (data) => {
-                    const ok = await handleCreateWord(data);
-                    if (ok) setShowWordForm(false);
-                    return ok;
-                  }}
-                  loading={wordSaving}
-                  onCollapse={() => setShowWordForm(false)}
-                />
-              )}
-
-              {/* Words Table & Filter */}
+              {/* Clean Word List without table borders or boxed cells */}
               <WordList
                 words={words}
                 onUpdate={handleUpdateWord}
                 onDelete={handleDeleteWord}
-                onAddWord={() => setShowWordForm(true)}
                 isAddingWord={showWordForm}
               />
+
+              {/* Small "+" button directly below words */}
+              {!showWordForm ? (
+                <button
+                  onClick={() => setShowWordForm(true)}
+                  className="mt-3 inline-flex items-center gap-2.5 text-sm text-white/60 hover:text-white py-1.5 px-3 rounded-lg hover:bg-white/[0.08] active:scale-95 transition-all duration-200 group border border-transparent hover:border-white/15"
+                  style={{ fontFamily: "'Patrick Hand', cursive" }}
+                  aria-label="Add a new word"
+                >
+                  <span className="w-5 h-5 rounded-full border border-white/25 flex items-center justify-center text-xs text-white/70 group-hover:border-white group-hover:bg-white group-hover:text-black group-hover:scale-110 group-hover:rotate-90 transition-all duration-300">
+                    +
+                  </span>
+                  <span className="group-hover:translate-x-0.5 transition-transform duration-200">Add word</span>
+                </button>
+              ) : (
+                <div className="mt-3">
+                  <WordForm
+                    onSubmit={async (data) => {
+                      const ok = await handleCreateWord(data);
+                      if (ok) setShowWordForm(false);
+                      return ok;
+                    }}
+                    loading={wordSaving}
+                    onCollapse={() => setShowWordForm(false)}
+                  />
+                </div>
+              )}
             </section>
           )}
 
           {/* ─── NOTES SECTION ─────────────────────────────── */}
           {(viewFilter === 'both' || viewFilter === 'notes') && (
-            <section
-              className="space-y-4"
-              aria-label="Notes and Quotes section"
-            >
-              {/* Notes Section Header */}
-              <div
-                className="flex items-center justify-between p-3.5 sketch-card border-l-[3px]"
-                style={{ borderLeftColor: 'rgba(255,255,255,0.25)' }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xl" aria-hidden="true">📝</span>
-                  <h2
-                    className="text-xl font-bold leading-tight"
-                    style={{ fontFamily: "'Gaegu', cursive" }}
-                  >
-                    Notes & Quotes
-                  </h2>
-                  <span
-                    className="sketch-badge text-xs"
-                    style={{ background: 'rgba(255,255,255,0.08)', borderColor: 'rgba(255,255,255,0.2)', color: '#ffffff' }}
-                  >
-                    {notes.length}
-                  </span>
-                </div>
-
-                <button
-                  onClick={() => setCreatingNote((prev) => !prev)}
-                  className={`sketch-btn sketch-btn-sm ${
-                    creatingNote ? 'sketch-btn-secondary' : 'sketch-btn-primary'
-                  }`}
-                  aria-expanded={creatingNote}
-                  aria-label={creatingNote ? 'Collapse note panel' : 'Write new note'}
+            <section aria-label="Notes and Quotes">
+              {/* Clean Section Header (No boxes) */}
+              <div className="flex items-center justify-between mb-2 pb-2 border-b border-white/10">
+                <h2
+                  className="text-xl font-bold tracking-wide text-white"
+                  style={{ fontFamily: "'Gaegu', cursive" }}
                 >
-                  {creatingNote ? '▲ Collapse' : '📝 Write Note'}
-                </button>
+                  Notes & Quotes
+                </h2>
+                <span className="text-xs text-white/40" style={{ fontFamily: "'Patrick Hand', cursive" }}>
+                  {notes.length} saved
+                </span>
               </div>
 
-              {/* Collapsible Notes Form & List */}
+              {/* Clean Notes List without heavy card boxes */}
               <NoteList
                 notes={notes}
-                onCreate={handleCreateNote}
                 onUpdate={handleUpdateNote}
                 onDelete={handleDeleteNote}
                 creating={creatingNote}
-                setCreating={setCreatingNote}
-                hideTrigger={true}
               />
+
+              {/* Small "+" button directly below notes */}
+              {!creatingNote ? (
+                <button
+                  onClick={() => setCreatingNote(true)}
+                  className="mt-3 inline-flex items-center gap-2.5 text-sm text-white/60 hover:text-white py-1.5 px-3 rounded-lg hover:bg-white/[0.08] active:scale-95 transition-all duration-200 group border border-transparent hover:border-white/15"
+                  style={{ fontFamily: "'Patrick Hand', cursive" }}
+                  aria-label="Write a new note"
+                >
+                  <span className="w-5 h-5 rounded-full border border-white/25 flex items-center justify-center text-xs text-white/70 group-hover:border-white group-hover:bg-white group-hover:text-black group-hover:scale-110 group-hover:rotate-90 transition-all duration-300">
+                    +
+                  </span>
+                  <span className="group-hover:translate-x-0.5 transition-transform duration-200">Add note</span>
+                </button>
+              ) : (
+                <div className="mt-3">
+                  <NoteForm
+                    onSubmit={async (data) => {
+                      const ok = await handleCreateNote(data);
+                      if (ok) setCreatingNote(false);
+                      return ok;
+                    }}
+                    onCancel={() => setCreatingNote(false)}
+                    loading={noteSaving}
+                  />
+                </div>
+              )}
             </section>
           )}
         </div>

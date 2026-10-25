@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 /**
- * NoteForm — inline editor for creating or editing a note.
+ * NoteForm — clean, compact inline form to add/edit notes directly below the note list.
  */
 export default function NoteForm({ editNote, onSubmit, onCancel, loading }) {
   const [content, setContent] = useState(editNote?.content ?? '');
@@ -42,39 +42,21 @@ export default function NoteForm({ editNote, onSubmit, onCancel, loading }) {
     <form
       onSubmit={handleSubmit}
       noValidate
-      className="sketch-card animate-fade-in mb-4"
+      className="p-4 border border-white/15 bg-white/[0.04] backdrop-blur-md rounded-xl animate-fade-in"
       aria-label={editNote ? 'Edit note' : 'Write a note'}
-      style={{ borderLeft: '3px solid rgba(255,255,255,0.35)' }}
     >
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg" style={{ fontFamily: "'Gaegu', cursive", fontWeight: 700 }}>
-          {editNote ? '✏️ Edit Note' : '📝 Write a Note'}
-        </h3>
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="sketch-btn sketch-btn-secondary sketch-btn-sm"
-            aria-label="Collapse note form"
-            title="Collapse note form"
-          >
-            ▲ Collapse
-          </button>
-        )}
-      </div>
-
       <div className="mb-3">
-        <label htmlFor="note-content" className="block text-sm mb-1 font-medium">
-          Note <span aria-hidden="true" className="text-red-500">*</span>
+        <label htmlFor="note-content" className="block text-xs uppercase tracking-wider text-white/50 mb-1" style={{ fontFamily: "'Gaegu', cursive" }}>
+          Note / Quote
         </label>
         <textarea
           id="note-content"
           ref={textareaRef}
           value={content}
           onChange={(e) => { setContent(e.target.value); setErrors((p) => ({ ...p, content: '' })); }}
-          className="sketch-input"
-          rows={4}
-          placeholder="Write an important sentence or thought from the book…"
+          className="sketch-input py-1.5 text-sm"
+          rows={3}
+          placeholder="Jot down a quote, insight, or summary…"
           aria-required="true"
           aria-describedby={errors.content ? 'note-content-err' : undefined}
           maxLength={5000}
@@ -82,16 +64,16 @@ export default function NoteForm({ editNote, onSubmit, onCancel, loading }) {
         {errors.content && <p id="note-content-err" className="error-msg" role="alert">{errors.content}</p>}
       </div>
 
-      <div className="mb-4 max-w-[180px]">
-        <label htmlFor="note-page" className="block text-sm mb-1">
-          Page number <span className="muted">(optional)</span>
+      <div className="mb-4 max-w-[140px]">
+        <label htmlFor="note-page" className="block text-xs uppercase tracking-wider text-white/50 mb-1" style={{ fontFamily: "'Gaegu', cursive" }}>
+          Page <span className="normal-case text-white/30 text-[11px]">(optional)</span>
         </label>
         <input
           id="note-page"
           type="number"
           value={pageNumber}
           onChange={(e) => { setPageNumber(e.target.value); setErrors((p) => ({ ...p, pageNumber: '' })); }}
-          className="sketch-input"
+          className="sketch-input py-1.5 text-sm"
           placeholder="e.g. 42"
           min={1}
           step={1}
@@ -100,13 +82,13 @@ export default function NoteForm({ editNote, onSubmit, onCancel, loading }) {
         {errors.pageNumber && <p id="note-page-err" className="error-msg" role="alert">{errors.pageNumber}</p>}
       </div>
 
-      <div className="flex gap-3">
-        <button type="submit" disabled={loading} className="sketch-btn sketch-btn-primary">
-          {loading ? '⏳ Saving…' : editNote ? '💾 Save Changes' : '💾 Save Note'}
+      <div className="flex items-center gap-2">
+        <button type="submit" disabled={loading} className="sketch-btn sketch-btn-primary sketch-btn-sm">
+          {loading ? '⏳' : editNote ? 'Save Changes' : 'Save Note'}
         </button>
         {onCancel && (
-          <button type="button" onClick={onCancel} className="sketch-btn sketch-btn-secondary">
-            {editNote ? 'Cancel' : '▲ Collapse'}
+          <button type="button" onClick={onCancel} className="sketch-btn sketch-btn-secondary sketch-btn-sm">
+            Cancel
           </button>
         )}
       </div>

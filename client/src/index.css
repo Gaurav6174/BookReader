@@ -120,19 +120,25 @@ h1, h2, h3, h4 {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 0;
+  border-radius: 8px;
   padding: 8px 12px;
   font-size: 15px;
   color: #ffffff;
   width: 100%;
   outline: none;
-  transition: border-color 0.15s, background 0.15s;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: none;
 }
 
+.sketch-input:hover {
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.09);
+}
+
 .sketch-input:focus {
-  border-color: rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.12);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
 }
 
 .sketch-input::placeholder {
@@ -154,7 +160,7 @@ textarea.sketch-input {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -163,17 +169,18 @@ textarea.sketch-input {
   position: relative;
   text-decoration: none;
   user-select: none;
-  border-radius: 0;
+  border-radius: 8px;
 }
 
 .sketch-btn:hover:not(:disabled) {
-  background: rgba(255,255,255,0.15);
-  border-color: rgba(255,255,255,0.5);
-  transform: translateY(-1px);
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45);
 }
 
 .sketch-btn:active:not(:disabled) {
-  transform: translateY(0);
+  transform: translateY(0) scale(0.97);
 }
 
 .sketch-btn:disabled {
@@ -186,12 +193,15 @@ textarea.sketch-input {
   background: #ffffff;
   color: #000000;
   border-color: #ffffff;
+  font-weight: bold;
 }
 
 .sketch-btn-primary:hover:not(:disabled) {
-  background: rgba(255,255,255,0.88);
-  border-color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.92);
+  border-color: #ffffff;
   color: #000000;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255,255,255,0.25);
 }
 
 /* Secondary = ghost */
@@ -199,6 +209,12 @@ textarea.sketch-input {
   background: rgba(255,255,255,0.08);
   color: #ffffff;
   border-color: rgba(255,255,255,0.25);
+}
+
+.sketch-btn-secondary:hover:not(:disabled) {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.5);
+  color: #ffffff;
 }
 
 /* Danger = red-tinted glass */
@@ -211,6 +227,7 @@ textarea.sketch-input {
 .sketch-btn-danger:hover:not(:disabled) {
   background: rgba(220,38,38,0.35);
   border-color: rgba(220,38,38,0.75);
+  box-shadow: 0 8px 24px rgba(220,38,38,0.3);
 }
 
 /* Lookup */
@@ -225,12 +242,76 @@ textarea.sketch-input {
 .sketch-btn-lookup:hover:not(:disabled) {
   background: rgba(255,255,255,0.18);
   border-color: rgba(255,255,255,0.5);
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
 }
 
 /* Small */
 .sketch-btn-sm {
   padding: 4px 12px;
   font-size: 13px;
+}
+
+/* Landing Buttons */
+.landing-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-hand);
+  cursor: pointer;
+  text-decoration: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: bold;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.4);
+  user-select: none;
+}
+
+.landing-btn-primary:hover {
+  background: rgba(255,255,255,0.92);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 24px rgba(255,255,255,0.25);
+  color: #000000;
+}
+
+.landing-btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.landing-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-hand);
+  cursor: pointer;
+  text-decoration: none;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-size: 15px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.landing-btn-secondary:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+  color: #ffffff;
+}
+
+.landing-btn-secondary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* ─── Dark-mode overrides (no-op, already dark) ──────── */
@@ -247,9 +328,19 @@ html.dark .sketch-btn-lookup       { background: rgba(255,255,255,0.1); color: r
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--glass-border);
+  border-radius: 14px;
   box-shadow: var(--glass-shadow);
   padding: 20px;
   color: #ffffff;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+              background 0.25s ease, 
+              border-color 0.25s ease, 
+              box-shadow 0.25s ease;
+}
+
+.sketch-card:hover {
+  border-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 html.dark .sketch-card {
@@ -288,6 +379,7 @@ html.dark .breadcrumb a:hover { color: #ffffff; }
   gap: 4px;
   padding: 2px 10px;
   border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -295,6 +387,14 @@ html.dark .breadcrumb a:hover { color: #ffffff; }
   font-family: var(--font-hand);
   color: rgba(255,255,255,0.75);
   box-shadow: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sketch-badge:hover {
+  background: rgba(255,255,255,0.16);
+  border-color: rgba(255,255,255,0.38);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 html.dark .sketch-badge {
@@ -321,6 +421,7 @@ html.dark .sketch-badge {
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 14px;
   box-shadow: 0 24px 64px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
   padding: 28px;
   max-width: 420px;
