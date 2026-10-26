@@ -8,6 +8,7 @@ import chaptersRouter from './routes/chapters.routes.js';
 import wordsRouter from './routes/words.routes.js';
 import notesRouter from './routes/notes.routes.js';
 import authRouter from './routes/auth.routes.js';
+import productivityRouter from './routes/productivity.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import { notFound } from './middleware/notFound.js';
 import { optionalAuth } from './middleware/auth.js';
@@ -44,6 +45,9 @@ export function createApp({ clientOrigin }) {
   // Notes: nested under chapters AND standalone
   app.use('/api/chapters/:chapterId/notes', notesRouter);
   app.use('/api/notes', notesRouter);
+
+  // Productivity stats
+  app.use('/api/productivity', productivityRouter);
 
   // 404 and error handlers (must be last)
   app.use(notFound);

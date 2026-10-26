@@ -6,6 +6,8 @@ import Breadcrumbs from '../components/Breadcrumbs.jsx';
 import ChapterItem from '../components/chapters/ChapterItem.jsx';
 import ChapterForm from '../components/chapters/ChapterForm.jsx';
 import UserMenu from '../components/UserMenu.jsx';
+import MusicButton from '../components/music/MusicButton.jsx';
+import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function BookPage() {
@@ -133,6 +135,8 @@ export default function BookPage() {
             </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            <ProductivityNavButton />
+            <MusicButton />
             <UserMenu />
           </div>
         </div>

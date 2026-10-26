@@ -8,6 +8,8 @@ import WordList from '../components/words/WordList.jsx';
 import NoteList from '../components/notes/NoteList.jsx';
 import NoteForm from '../components/notes/NoteForm.jsx';
 import UserMenu from '../components/UserMenu.jsx';
+import MusicButton from '../components/music/MusicButton.jsx';
+import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function ChapterPage() {
@@ -222,6 +224,8 @@ export default function ChapterPage() {
               </button>
             </div>
 
+            <ProductivityNavButton />
+            <MusicButton />
             <UserMenu />
           </div>
         </div>

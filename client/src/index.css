@@ -314,6 +314,69 @@ textarea.sketch-input {
   transform: translateY(0) scale(0.98);
 }
 
+/* Navbar Specific Compact Buttons */
+.landing-nav-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-hand);
+  cursor: pointer;
+  text-decoration: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1.2;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  user-select: none;
+}
+
+.landing-nav-btn-primary:hover {
+  background: rgba(255,255,255,0.92);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 4px 14px rgba(255,255,255,0.25);
+  color: #000000;
+}
+
+.landing-nav-btn-primary:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.landing-nav-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-hand);
+  cursor: pointer;
+  text-decoration: none;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: 8px;
+  padding: 5px 14px;
+  font-size: 13px;
+  line-height: 1.2;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.landing-nav-btn-secondary:hover {
+  background: rgba(255,255,255,0.14);
+  border-color: rgba(255,255,255,0.45);
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+.landing-nav-btn-secondary:active {
+  transform: translateY(0) scale(0.97);
+}
+
 /* ─── Dark-mode overrides (no-op, already dark) ──────── */
 html.dark .sketch-btn              { box-shadow: none; }
 html.dark .sketch-btn-primary      { background: #ffffff; color: #000000; }

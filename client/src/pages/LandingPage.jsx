@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
+import MusicButton from '../components/music/MusicButton.jsx';
+import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
 
 /* ─────────────────────────────────────────────────────────────
    Glass panel — the core reusable wrapper
@@ -253,13 +255,15 @@ export default function LandingPage() {
               <span style={{ fontSize: '24px' }}>📚</span>
               <span style={{ fontFamily: "'Gaegu', cursive", fontSize: '20px', fontWeight: 700 }}>Book Companion</span>
             </div>
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <ProductivityNavButton />
+              <MusicButton />
               {isAuthenticated ? (
-                <Link to="/" className="landing-btn-secondary">My Library →</Link>
+                <Link to="/" className="landing-nav-btn-secondary">My Library →</Link>
               ) : (
                 <>
-                  <Link to="/login" className="landing-btn-secondary">Log In</Link>
-                  <Link to="/register" className="landing-btn-primary">✨ Sign Up Free</Link>
+                  <Link to="/login" className="landing-nav-btn-secondary">Log In</Link>
+                  <Link to="/register" className="landing-nav-btn-primary">✨ Sign Up Free</Link>
                 </>
               )}
             </div>
@@ -349,7 +353,7 @@ export default function LandingPage() {
               <FeatureCard emoji="🔤" title="Save Unknown Words" desc="Stumble on a word? Save it instantly. Look it up on Google, paste the meaning, done." />
               <FeatureCard emoji="📝" title="Capture Key Notes" desc="Write down powerful sentences and important ideas — tied directly to the chapter." />
               <FeatureCard emoji="🔍" title="Search & Filter" desc="Find any word you saved in a chapter instantly with the built-in filter." />
-              <FeatureCard emoji="🌙" title="Dark Mode" desc="Read late at night without straining your eyes. Toggle anytime — your preference is saved." />
+              <FeatureCard emoji="🎵" title="Study Background Music" desc="Play soothing lofi study beats and ambient music directly from YouTube, auto-minimized for zero distraction." />
               <FeatureCard emoji="📱" title="Works on Mobile" desc="Whether you're on your phone or desktop, the app adapts. Perfect for reading on the go." />
             </div>
           </div>
