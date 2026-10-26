@@ -6,6 +6,7 @@ import UserMenu from '../components/UserMenu.jsx';
 import MusicButton from '../components/music/MusicButton.jsx';
 import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
 import ProductivitySection from '../components/productivity/ProductivitySection.jsx';
+import InstallAppButton from '../components/pwa/InstallAppButton.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function BooksPage() {
@@ -99,7 +100,8 @@ export default function BooksPage() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <InstallAppButton />
             <ProductivityNavButton />
             <MusicButton />
             <UserMenu />

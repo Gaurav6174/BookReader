@@ -10,6 +10,7 @@ import NoteForm from '../components/notes/NoteForm.jsx';
 import UserMenu from '../components/UserMenu.jsx';
 import MusicButton from '../components/music/MusicButton.jsx';
 import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
+import InstallAppButton from '../components/pwa/InstallAppButton.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function ChapterPage() {
@@ -224,6 +225,7 @@ export default function ChapterPage() {
               </button>
             </div>
 
+            <InstallAppButton />
             <ProductivityNavButton />
             <MusicButton />
             <UserMenu />

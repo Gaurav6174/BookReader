@@ -8,6 +8,7 @@ import ChapterForm from '../components/chapters/ChapterForm.jsx';
 import UserMenu from '../components/UserMenu.jsx';
 import MusicButton from '../components/music/MusicButton.jsx';
 import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
+import InstallAppButton from '../components/pwa/InstallAppButton.jsx';
 import { useToast } from '../hooks/useToast.jsx';
 
 export default function BookPage() {
@@ -134,7 +135,8 @@ export default function BookPage() {
               )}
             </div>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+            <InstallAppButton />
             <ProductivityNavButton />
             <MusicButton />
             <UserMenu />

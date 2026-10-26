@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { useToast } from '../hooks/useToast.jsx';
+import InstallAppButton from './pwa/InstallAppButton.jsx';
 
 export default function UserMenu() {
   const { user, isAuthenticated, logout } = useAuth();
@@ -88,6 +89,11 @@ export default function UserMenu() {
                   {user.email}
                 </p>
               </div>
+            </div>
+
+            {/* Install App Button if available */}
+            <div className="py-1 border-b border-white/10">
+              <InstallAppButton variant="menu-item" />
             </div>
 
             {/* Logout button shifted inside */}

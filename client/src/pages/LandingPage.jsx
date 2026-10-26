@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import MusicButton from '../components/music/MusicButton.jsx';
 import ProductivityNavButton from '../components/productivity/ProductivityNavButton.jsx';
+import InstallAppButton from '../components/pwa/InstallAppButton.jsx';
 
 /* ─────────────────────────────────────────────────────────────
    Glass panel — the core reusable wrapper
@@ -256,6 +257,7 @@ export default function LandingPage() {
               <span style={{ fontFamily: "'Gaegu', cursive", fontSize: '20px', fontWeight: 700 }}>Book Companion</span>
             </div>
             <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <InstallAppButton />
               <ProductivityNavButton />
               <MusicButton />
               {isAuthenticated ? (
