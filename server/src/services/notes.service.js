@@ -4,7 +4,7 @@ import { notFoundError, assertValidId } from '../middleware/validate.js';
 
 export async function getNotes(chapterId) {
   assertValidId(chapterId, 'chapterId');
-  return Note.find({ chapterId }).sort({ createdAt: -1 });
+  return Note.find({ chapterId }).sort({ createdAt: 1 });
 }
 
 export async function createNote(chapterId, _unusedBookId, { content, pageNumber }) {

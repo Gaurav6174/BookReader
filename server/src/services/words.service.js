@@ -4,7 +4,7 @@ import { notFoundError, conflictError, assertValidId } from '../middleware/valid
 
 export async function getWords(chapterId) {
   assertValidId(chapterId, 'chapterId');
-  return Word.find({ chapterId }).sort({ createdAt: -1 });
+  return Word.find({ chapterId }).sort({ createdAt: 1 });
 }
 
 export async function createWord(chapterId, _unusedBookId, { word, meaning, exampleSentence }) {

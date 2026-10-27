@@ -53,7 +53,7 @@ export default function ChapterPage() {
     setWordSaving(true);
     try {
       const word = await wordsApi.create(chapterId, data);
-      setWords((prev) => [word, ...prev]);
+      setWords((prev) => [...prev, word]);
       toast({ message: `"${word.word}" saved!`, type: 'success' });
       return true;
     } catch (err) {
@@ -99,7 +99,7 @@ export default function ChapterPage() {
     setNoteSaving(true);
     try {
       const note = await notesApi.create(chapterId, data);
-      setNotes((prev) => [note, ...prev]);
+      setNotes((prev) => [...prev, note]);
       toast({ message: 'Note saved!', type: 'success' });
       return true;
     } catch (err) {
